@@ -3,6 +3,7 @@ package org.gxuwz.arithmatic.lanqiao.lanqiao10;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -104,9 +105,12 @@ public class Demo5_迷宫 {
             line = bf.readLine();
             n++;
         }
-//        endToStart(a);
-//        startToEnd(a);
         endToStart(a);
+//        for (int i = 0; i < vis.length; i++) {
+//            System.out.println(Arrays.toString(vis[i]));
+//        }
+//        System.out.println();
+        startToEnd(a);
     }
 
     // 从终点到起点的遍历
@@ -116,7 +120,7 @@ public class Demo5_迷宫 {
         vis = new int[n][m];
         // 存放每次广度优先搜索到的坐标
         Queue<Integer> queue = new LinkedList<Integer>();
-        // 添加倒数第二个坐标
+        // 添加倒数第一个坐标（从0开始）
         queue.add(n * m - 1);
         // 若队列不为空
         while (!queue.isEmpty()) {
@@ -164,12 +168,5 @@ public class Demo5_迷宫 {
         }
         System.out.println(res.length());
         System.out.println(res);
-    }
-
-    public static void endToStart1(char[][] a) {
-        for (int i = 0; i < a.length; i++) {
-
-        }
-        System.out.println();
     }
 }
