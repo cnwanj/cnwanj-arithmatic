@@ -106,10 +106,6 @@ public class Demo5_迷宫 {
             n++;
         }
         endToStart(a);
-//        for (int i = 0; i < vis.length; i++) {
-//            System.out.println(Arrays.toString(vis[i]));
-//        }
-//        System.out.println();
         startToEnd(a);
     }
 
