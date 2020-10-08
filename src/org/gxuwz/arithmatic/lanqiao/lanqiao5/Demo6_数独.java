@@ -1,6 +1,5 @@
 package org.gxuwz.arithmatic.lanqiao.lanqiao5;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -77,7 +76,7 @@ import java.util.Scanner;
  * 注意：不要使用package语句。不要使用jdk1.7及以上版本的特性。
  * 注意：主类的名字必须是：Main，否则按无效代码处理。
  *
- * 思路：宫内检测、行内检测 ---> 循环递归、无解回溯
+ * 思路：宫内检测、行列检测 ---> 循环递归、无解回溯
  *
  * @author: 韦永恒
  * @date: 2020-10-06 19:02:32
@@ -97,18 +96,13 @@ public class Demo6_数独 {
 
         // n行、m列
         f(0, 0);
+        sc.close();
     }
 
     static void f(int n, int m) {
         // 若为第9行则输出
         if (n == 9) {
-            for (int i = 0; i < arr.length; i++) {
-                for (int j = 0; j < arr[0].length; j++) {
-                    System.out.print(arr[i][j]);
-                }
-                System.out.println();
-//                System.out.print(Arrays.toString(arr[i]) + "\n");
-            }
+            print();
             return;
         }
         // 若元素为0
@@ -171,5 +165,15 @@ public class Demo6_数独 {
             }
         }
         return true;
+    }
+
+    // 输出
+    static void print() {
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr[0].length; j++) {
+                System.out.print(arr[i][j]);
+            }
+            System.out.println();
+        }
     }
 }

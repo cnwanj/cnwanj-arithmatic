@@ -5,7 +5,9 @@ import java.util.Scanner;
 import java.util.Set;
 
 /**
- * @description: 勾股定理，西方称为毕达哥拉斯定理，它所对应的三角形现在称为：直角三角形。
+ * @description:
+ *
+ * 勾股定理，西方称为毕达哥拉斯定理，它所对应的三角形现在称为：直角三角形。
  * <p>
  * 已知直角三角形的斜边是某个整数，并且要求另外两条边也必须是整数。
  * <p>
@@ -52,7 +54,6 @@ public class Demo5_勾股 {
 
     static int count = 0;
     static long n = 0;
-    static Set<String> set = new HashSet<>();
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);

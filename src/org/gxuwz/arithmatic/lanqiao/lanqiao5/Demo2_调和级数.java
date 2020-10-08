@@ -19,6 +19,8 @@ package org.gxuwz.arithmatic.lanqiao.lanqiao5;
  *
  * 注意：只需要填写一个整数，不要填写任何多余的内容。比如说明文字。
  *
+ * 思路：double类型遍历求和
+ *
  * 答案：1835421
  *
  * @author: 韦永恒
