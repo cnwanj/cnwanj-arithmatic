@@ -42,7 +42,6 @@ public class Demo7_剪邮票 {
             if (list.size() == 5) {
                 if (check()) {
                     count++;
-                    System.out.println(list);
                 }
             }
             step++;
@@ -87,7 +86,7 @@ public class Demo7_剪邮票 {
     }
 }
 
-// 我写的
+// 我写的1
 class Demo7_剪邮票1 {
 
     static int[] a = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
@@ -123,13 +122,15 @@ class Demo7_剪邮票1 {
             b[list.get(i) - 1] = 1;
         }
         boolean[] vis = new boolean[12];
+        // 记录邮票连续串的个数
         int count = 0;
         for (int i = 0; i < b.length; i++) {
             if (b[i] == 1 && !vis[i]) {
                 vis[i] = true;
                 // 深度优先遍历
                 dfs(vis, b, i);
-                count++;
+                // 每遍历到一个连续串就 +1
+                count ++;
             }
         }
         if (count == 1)
@@ -144,17 +145,84 @@ class Demo7_剪邮票1 {
         for (int i = 0; i < 4; i++) {
             m = n + x[i];
             if (m >= 0 && m < b.length && b[m] == 1 && !vis[m]) {
-                // 纵向遍历
                 if (i < 2) {
+                    // 纵向遍历，若在同一行
                     if (n / 4 == m / 4) {
                         vis[m] = true;
                         dfs(vis, b, m);
                     }
-                }
-                // 横向遍历
-                else {
+                } else {
+                    // 横向遍历
                     vis[m] = true;
                     dfs(vis, b, m);
+                }
+            }
+        }
+    }
+}
+
+// 我写的2
+class Demo7_剪邮票2 {
+
+    private static int[] arr, arr1 = new int[5], arr2;
+    // 记录上下左右
+    private static int[] x = {-1, 1, -4, 4};
+    private static int count = 0;
+
+    public static void main(String[] args) {
+        arr = new int[]{1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12};
+        f(0, 0);
+        System.out.println(count);
+    }
+
+    static void f(int c, int p) {
+        if (p == arr1.length) {
+            if (check()) {
+                count ++;
+            }
+            return;
+        }
+        for (int i = c; i < arr.length; i++) {
+            arr1[p] = arr[i];
+            f(i + 1, p + 1);
+        }
+    }
+
+    static boolean check() {
+        // 将抽取到的数替换为1
+        arr2 = new int[arr.length];
+        for (int i = 0; i < arr1.length; i++) {
+            arr2[arr1[i] - 1] = 1;
+        }
+
+        // 记录是否走过
+        boolean[] vis = new boolean[arr.length];
+        int count = 0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr2[i] == 1 && !vis[i]) {
+                vis[i] = true;
+                // 深度遍历
+                dfs(vis, i);
+                count ++;
+            }
+        }
+        if (count != 1)
+            return false;
+        return true;
+    }
+
+    static void dfs(boolean[] vis, int n) {
+        for (int i = 0; i < x.length; i++) {
+            int m = n + x[i];
+            if (m >= 0 && m < arr.length && arr2[m] == 1 && !vis[m]) {
+                if (i < 2) {
+                    if (n / 4 == m / 4) {
+                        vis[m] = true;
+                        dfs(vis, m);
+                    }
+                } else {
+                    vis[m] = true;
+                    dfs(vis, m);
                 }
             }
         }

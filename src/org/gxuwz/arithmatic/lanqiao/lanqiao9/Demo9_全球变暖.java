@@ -1,8 +1,9 @@
 package org.gxuwz.arithmatic.lanqiao.lanqiao9;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
-/*
+/**
  * 标题：全球变暖
  *
  *  你有一张某海域NxN像素的照片，"."表示海洋、"#"表示陆地，如下所示：
@@ -122,28 +123,32 @@ public class Demo9_全球变暖 {
 
         // 深度遍历找出岛屿的数量
         int count = islandCount(a);
-        System.out.println(count);
-//        for (int i = 0; i < N; i++) {
-//            for (int j = 0; j < N; j++) {
-//                if (a[i][j] == '#') {
-//                    int o, p;
-//                    for (int k = 0; k < 4; k++) {
-//                        o = i + dir[k][0];
-//                        p = j + dir[k][1];
-//                        if (o < 0 || o >= N || p < 0 || p >= N) {
-//                            result[i][j] = '.';
-//                            break;
-//                        } else if (a[o][p] == '.') {
-//                            result[i][j] = '.';
-//                            break;
-//                        }
-//
-//                    }
-//                }
-//            }
-//        }
-//
-//        vis = new boolean[N][N];
-//        System.out.println(count - islandCount(result));
+        for (int i = 0; i < a.length; i++) {
+            System.out.println(Arrays.toString(a[i]));
+        }
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (a[i][j] == '#') {
+                    int o, p;
+                    for (int k = 0; k < 4; k++) {
+                        o = i + dir[k][0];
+                        p = j + dir[k][1];
+                        if (o < 0 || o >= N || p < 0 || p >= N) {
+                            result[i][j] = '.';
+                            break;
+                        } else if (a[o][p] == '.') {
+                            result[i][j] = '.';
+                            break;
+                        }
+
+                    }
+                }
+            }
+        }
+        for (int i = 0; i < a.length; i++) {
+            System.out.println(Arrays.toString(result[i]));
+        }
+        vis = new boolean[N][N];
+        System.out.println(count - islandCount(result));
     }
 }

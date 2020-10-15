@@ -9,6 +9,8 @@ import java.util.Set;
  * 的串。例如，字符串aaab 有非空子串a, b, aa, ab, aaa, aab, aaab，一共 7 个。
  * 注意在计算时，只算本质不同的串的个数。
  * 请问，字符串0100110001010001 有多少个不同的非空子串？
+ *
+ * 100
  */
 public class Demo2_不同子串 {
 
