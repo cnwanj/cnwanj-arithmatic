@@ -1,9 +1,10 @@
 package org.gxuwz.arithmatic.lanqiao.lanqiao8;
-/*
-标题：取数位
 
-求1个整数的第k位数字有很多种方法。
-以下的方法就是一种。
+/**
+ * 标题：取数位
+ *
+ * 求1个整数的第k位数字有很多种方法。
+ * 以下的方法就是一种。
  */
 public class Demo5_取数位 {
     static int len(int x){

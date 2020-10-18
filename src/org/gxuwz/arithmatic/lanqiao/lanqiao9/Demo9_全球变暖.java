@@ -152,3 +152,95 @@ public class Demo9_全球变暖 {
         System.out.println(count - islandCount(result));
     }
 }
+
+// 被淹没c次后，有多少岛屿被淹没
+class Demo9_全球变暖1 {
+
+    static int[][] xy = {{-1, 0}, {1, 0}, {0, -1}, {0, 1}};
+    static int N;
+    static char[][] a, res;
+    static boolean[][] vis;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        sc.nextLine();
+        a = new char[N][N];
+        res = new char[N][N];
+        for (int i = 0; i < N; i++) {
+            String s = sc.nextLine();
+            a[i] = s.toCharArray();
+            res[i] = s.toCharArray();
+        }
+        for (char[] chars : a) {
+            System.out.println(Arrays.toString(chars));
+        }
+
+        int c = f(a);
+        // 淹没的次数
+        int d = 2;
+        f1(d);
+        System.out.println();
+        for (char[] r : res){
+            System.out.println(Arrays.toString(r));
+        }
+        // 被淹没岛屿的数量
+        System.out.println(c - f(res));
+    }
+
+    static void f1(int d) {
+        if (f(res) == 0 || d == 0)
+            return;
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (a[i][j] == '#') {
+                    for (int k = 0; k < xy.length; k++) {
+                        int o = i + xy[k][0];
+                        int p = j + xy[k][1];
+                        // 若越界
+                        if (o < 0 || o >= N || p < 0 || p >= N) {
+                            res[i][j] = '.';
+                            break;
+                        } else if (a[o][p] == '.') {
+                            res[i][j] = '.';
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+        // 复制数组
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                a[i][j] = res[i][j];
+            }
+        }
+        f1(d - 1);
+    }
+
+    static int f(char[][] a) {
+        int count = 0;
+        vis = new boolean[N][N];
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (a[i][j] == '#' && !vis[i][j]) {
+                    vis[i][j] = true;
+                    dfs(i, j);
+                    count ++;
+                }
+            }
+        }
+        return count;
+    }
+
+    static void dfs(int x, int y) {
+        for (int i = 0; i < xy.length; i++) {
+            int o = x + xy[i][0];
+            int p = y + xy[i][1];
+            if (o >= 0 && o < N && p >= 0 && p < N && a[o][p] == '#' && !vis[o][p]) {
+                vis[o][p] = true;
+                dfs(o, p);
+            }
+        }
+    }
+}

@@ -68,7 +68,7 @@ public class Demo5_勾股 {
         for (long i = 1; i <= n; i++) {
             long s = (long) Math.sqrt(n * n - i * i);
             if (s + i > n && i * i + s * s == n * n) {
-                count++;
+                count ++;
                 System.out.println(i + "-" + s);
             }
         }

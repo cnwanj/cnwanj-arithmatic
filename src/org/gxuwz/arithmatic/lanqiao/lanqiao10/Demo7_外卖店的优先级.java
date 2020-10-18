@@ -48,6 +48,7 @@ import java.util.Scanner;
  * 　　　对于 80% 的评测用例，1≤ N,M,T ≤10000。 对于所有评测用例，1≤ N,M,T ≤100000，1≤ts≤T，1≤id ≤ N。
  */
 public class Demo7_外卖店的优先级 {
+    // 订单实体
     static class R {
         int ts;
         int id;
@@ -55,19 +56,13 @@ public class Demo7_外卖店的优先级 {
 
     public static void main(String[] args) {
         /**
-2 6 6
-1
-1
-5
-2
-3
-1
-6
-2
-2
-1
-6
-2
+         2 6 6
+         1 1
+         5 2
+         3 1
+         6 2
+         2 1
+         6 2
          * 店数(n) 订单数(m) 时刻(t)
          * 时刻(ts) 店编号(id)
          */
@@ -80,10 +75,10 @@ public class Demo7_外卖店的优先级 {
             r.id = sc.nextInt();
             rs[i] = r;
         }
-        System.out.println(f(n, m, t, rs));
+        System.out.println(f(n, rs));
     }
-    static int f(int n, int m, int t, R[] rs) {
-        // 将时刻进行排序
+    static int f(int n, R[] rs) {
+        // 按时刻排序订单
         Arrays.sort(rs, new Comparator<R>() {
             public int compare(R r1, R r2) {
                 return r1.ts - r2.ts;
@@ -92,14 +87,14 @@ public class Demo7_外卖店的优先级 {
 
         // 用于存放优先级
         int[] arr = new int[n];
-        // 初始化为0
-        for (int i = 0; i < n; i++) {
-            arr[i] = 0;
-        }
+        // 遍历订单
         for (int i = 0; i < rs.length; i++) {
             int id = rs[i].id;
+            // 若该时刻收到订单，优先级+2
             arr[id - 1] += 2;
+            // 遍历缓存中的数组
             for (int j = 0; j < arr.length; j++) {
+                // 该时刻内的没有获得订单，优先级 - 1
                 if (j == id-1)
                     continue;
                 if (arr[j] != 0)

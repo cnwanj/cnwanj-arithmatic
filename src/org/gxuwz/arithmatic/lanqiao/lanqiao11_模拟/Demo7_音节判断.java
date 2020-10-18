@@ -31,7 +31,7 @@ public class Demo7_音节判断 {
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         String s = sc.nextLine();
-        boolean t = check(s.charAt(0));
+//        boolean t = check(s.charAt(0));
         String s1 = "";
         if (check(s.charAt(0))) {
             s1 = "0";
@@ -39,17 +39,20 @@ public class Demo7_音节判断 {
             s1 = "1";
         }
         for (int i = 1; i < s.length(); i++) {
-            if (check(s.charAt(i))) {
-                t = true;
-            } else {
-                t = false;
-            }
-            if (check(s.charAt(i - 1)) == true && check(s.charAt(i)) == false) {
+//            if (check(s.charAt(i))) {
+//                t = true;
+//            } else {
+//                t = false;
+//            }
+            // 若前一位是元音，且当前位是辅音
+            if (check(s.charAt(i - 1)) && !check(s.charAt(i))) {
                 s1 += "1";
-            } else if (check(s.charAt(i)) == true && check(s.charAt(i - 1)) == false) {
+                // 前一位是辅音，当前位是元音
+            } else if (!check(s.charAt(i - 1)) && check(s.charAt(i))) {
                 s1 += "0";
             }
         }
+
         if (s1.equals("1010"))
             System.out.println("yes");
         else

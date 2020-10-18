@@ -2,7 +2,7 @@ package org.gxuwz.arithmatic.lanqiao.lanqiao9;
 
 import java.util.*;
 
-/*
+/**
  * 标题：日志统计
  *
  * 小明维护着一个程序员论坛。现在他收集了一份"点赞"日志，日志共有N行。其中每一行的格式是：

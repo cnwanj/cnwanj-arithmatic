@@ -1,24 +1,37 @@
 package org.gxuwz.arithmatic.lanqiao;
 
-import com.sun.org.apache.bcel.internal.generic.FSUB;
-
-import java.util.*;
+import java.util.Arrays;
+import java.util.Scanner;
 
 /**
- * 【问题描述】
- * 小明对数位中含有 2、0、1、9 的数字很感兴趣（不包括前导 0），在 1 到
+ * 4.（填空题15分）现假设有一根足够长的面筋，
+ * 假设我们第1次先将面筋对折1次后切半，那么我们将得到3根面筋，
+ * 第2次我们将3根面筋分别连续对折2次后切半，那么我们将得到15根面筋，
+ * 以此类推，第7次操作后我们将得到多少根面筋。
+ * 注意：需要提交的是一个整数，不要填写任何多余内容。
  *
- * 40 中这样的数包括 1、2、9、10 至 32、39 和 40，共 28 个，他们的和是 574。
+ * 【答案】
+ * 635037975
  *
- * 请问，在 1 到 n 中，所有这样的数的和是多少？
+ * 【思路】
+ * 先计算一条面筋被对折后相切后得到的面筋数sum，再乘与上一次切得的面筋数
  */
 public class Main1 {
-
     public static void main(String[] args) {
-        String s = "123";
-        System.out.println(s.substring(0, 3));
+//        long sum = 1, num = 2;
+//        for (int i = 1; i <= 7; i++) {
+//            num = num * 2 - 1;
+//            sum = sum * num;
+//        }
+        System.out.println(123 % 10 / 10);
     }
 
+    // 先计算一条面筋被对折后相切后得到的面筋数Num
+    static int cutNum(int n) {
+        if (n == 1)
+            return 3;
+        return n * n + 1;
+    }
 }
 
 
