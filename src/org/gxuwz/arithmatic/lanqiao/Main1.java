@@ -18,19 +18,20 @@ import java.util.Scanner;
  */
 public class Main1 {
     public static void main(String[] args) {
-//        long sum = 1, num = 2;
-//        for (int i = 1; i <= 7; i++) {
-//            num = num * 2 - 1;
-//            sum = sum * num;
-//        }
-        System.out.println(123 % 10 / 10);
-    }
-
-    // 先计算一条面筋被对折后相切后得到的面筋数Num
-    static int cutNum(int n) {
-        if (n == 1)
-            return 3;
-        return n * n + 1;
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        sc.close();
+        if (n == 0 || n == 1) {
+            System.out.println(1);
+            return;
+        }
+        long[] arr = new long[n + 1];
+        arr[0] = 1;
+        arr[1] = 1;
+        for (int i = 2; i < arr.length; i ++) {
+            arr[i] = arr[i - 2] + arr[i - 1];
+        }
+        System.out.println(arr[n]);
     }
 }
 
