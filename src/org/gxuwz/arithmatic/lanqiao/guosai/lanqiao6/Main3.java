@@ -3,7 +3,9 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao6;
 /**
  * @Author: 韦永恒
  * @Date: 2020-10-26 20:32:49
- * @Description: 标题：显示二叉树
+ * @Description:
+ *
+ * 标题：显示二叉树
  *
  * 排序二叉树的特征是：
  *
@@ -30,6 +32,8 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao6;
  * 请分析程序逻辑，填写划线部分缺失的代码。
  *
  * 注意，只填写缺少的部分，不要填写已有的代码或符号，也不要加任何说明文字。
+ *
+ * 【答案】底部
  */
 public class Main3 {
     public static void main(String[] args) {
@@ -104,7 +108,8 @@ class BiTree {
         int p3 = r == null ? p2 : r.getRootPos(p2 + sv.length());
 
         buf[y][p2] = '|';
-        for (int i = p1; i <= p3; i++) buf[y + 1][i] = '-';
+        for (int i = p1; i <= p3; i++)
+            buf[y + 1][i] = '-';
         for (int i = 0; i < sv.length(); i++)
             // ________________________________;  //填空位置
         if (p1 < p2) buf[y + 1][p1] = '/';
@@ -118,3 +123,18 @@ class BiTree {
         return l == null ? x : x + l.getWidth();
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// buf[y + 1][p2 + i] = sv.charAt(i);
