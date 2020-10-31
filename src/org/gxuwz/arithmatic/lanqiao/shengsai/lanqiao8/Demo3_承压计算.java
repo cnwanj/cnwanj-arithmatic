@@ -58,7 +58,8 @@ import java.util.Arrays;
  * 72665192664
  */
 public class Demo3_承压计算 {
-    static String s =  "7\n" +
+    static String s =
+            "7\n" +
             "5 8\n" +
             "7 8 8\n" +
             "9 2 7 2\n" +

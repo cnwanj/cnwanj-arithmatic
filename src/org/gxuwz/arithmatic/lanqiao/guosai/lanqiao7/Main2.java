@@ -1,8 +1,6 @@
 package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao7;
 
-import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Scanner;
 import java.util.Set;
 
 /**
@@ -58,6 +56,9 @@ import java.util.Set;
  *
  * 这是一个整数，不要填写任何多余内容。
  *
+ * 【思路】
+ * 进行全排列，判断行列斜线上是否有相等的，若有相等的返回false，否则返回true
+ *
  * 【答案】3120
  */
 public class Main2 {
@@ -73,7 +74,6 @@ public class Main2 {
     static void f(int p) {
         if (p == a.length) {
             if (check()) {
-//                System.out.println(Arrays.toString(a));
                 count ++;
             }
             return;

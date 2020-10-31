@@ -12,8 +12,7 @@ public class Main2 {
         int[][] a = new int[n][n];
         sc.nextLine();
         for (int i = 0; i < n; i++) {
-            String s = sc.nextLine();
-            String[] str = s.split("");
+            String[] str = sc.nextLine().split("");
             for (int j = 0; j < n; j++) {
                 a[i][j] = Integer.parseInt(str[j]);
             }

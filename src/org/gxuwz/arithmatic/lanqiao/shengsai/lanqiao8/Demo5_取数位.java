@@ -21,7 +21,6 @@ public class Demo5_取数位 {
 
     public static void main(String[] args) {
         int x = 23513;
-//        System.out.println(len(x));
          System.out.println(f(x,4));
     }
 }

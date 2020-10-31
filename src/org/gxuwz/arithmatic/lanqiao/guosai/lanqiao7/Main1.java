@@ -23,37 +23,34 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao7;
  *
  * 注意：需要提交的是一个整数（表示撞B车的次数），不要填写任何其它内容。
  *
- * 【答案】34
+ * 【思路】
+ * v = d / s
+ * 鸟飞行的距离 = 总距离 - 火车行走的路程
+ * 50 * t = B - 10 * t
+ * t = B / 60
+ *
+ * 【答案】9
  *
  */
 public class Main1 {
+    // 记录撞击的总次数
+    static int count = 0;
+    static double B = 1000;
 
     public static void main(String[] args) {
-        double d = 1000, A = 10, B = 10, b = 60, count = 0;
-        // 秒
-        double s = 0.00001;
+        f(B);
+        // 若为偶数需要/2，若为奇数/2 + 1
+        System.out.println(count % 2 == 0 ? count / 2 : count / 2 + 1);
+    }
 
-//        for (;;) {
-//            System.out.println(s + " " + d);
-//            if (d <= 1) {
-//                break;
-//            }
-//            d -= (A + B) * 2;
-//            s ++;
-//        }
-
-        for (double i = 0; i < 26; i += 0.00001) {
-            if (b * s >= d) {
-                b += 10;
-                count ++;
-                s = 0.00001;
-            }
-            if (d <= 1) {
-                break;
-            }
-            d -= (A + B) * 2 * 0.00001;
-            s += 0.00001;
+    static void f(double B) {
+        count ++;
+        double t = B / 60;
+        // 总距离减去火车行走的路程
+        B -= 20 * t;
+        if (B < 1) {
+            return;
         }
-        System.out.println(count);
+        f(B);
     }
 }

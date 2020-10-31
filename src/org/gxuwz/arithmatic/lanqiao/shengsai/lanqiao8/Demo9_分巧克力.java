@@ -57,10 +57,6 @@ public class Demo9_分巧克力 {
             arr[i][1] = sc.nextInt();
             area += arr[i][0] * arr[i][1];
         }
-//        for (int i = 0; i < n; i++) {
-//            System.out.println(Arrays.toString(arr[i]));
-//        }
-//        System.out.println(area);
 
         // 将总的面积开方（最大正方形的边长），以此为分割起点
         int s = (int) Math.sqrt(1.0 * area);
