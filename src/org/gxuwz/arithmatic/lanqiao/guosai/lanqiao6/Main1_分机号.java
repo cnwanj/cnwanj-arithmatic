@@ -18,7 +18,7 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao6;
  *
  * 【答案】120
  */
-public class Main1 {
+public class Main1_分机号 {
     static int[] a1 = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0}, a2 = new int[3];
     static int count = 0;
 

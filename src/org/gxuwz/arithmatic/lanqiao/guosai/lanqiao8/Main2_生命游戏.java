@@ -79,7 +79,7 @@ import java.util.Scanner;
  *
  * 注意：需要提交的是一个整数，不要填写多余内容。
  */
-public class Main2 {
+public class Main2_生命游戏 {
 
     static int[][] xy = {{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}};
     static char[][] a, a1;

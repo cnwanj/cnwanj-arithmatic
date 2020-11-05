@@ -57,7 +57,7 @@ import java.util.Scanner;
  * 注意：主类的名字必须是：Main，否则按无效代码处理。
  *
  */
-public class Main4 {
+public class Main4_穿越雷区 {
 
     static char[][] arr;
     static int[][] xy = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};

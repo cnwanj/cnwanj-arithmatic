@@ -29,7 +29,7 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao7;
  *
  * 【答案】底部
  */
-public class Main3 {
+public class Main3_打靶 {
 
     static void f(int[] ta, int[] da, int k, int ho, int bu, int sc) {
         if (ho < 0 || bu < 0 || sc < 0)

@@ -75,7 +75,7 @@ import java.util.Scanner;
  * 每走到终点的时候进行判断是否已经射完靶子上的箭
  *
  */
-public class Main4 {
+public class Main4_路径之谜 {
 
     // 地图数组、靶子数组
     static int[][] arr, arr1, path, xy = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};

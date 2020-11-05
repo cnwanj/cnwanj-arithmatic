@@ -61,7 +61,7 @@ import java.util.Set;
  *
  * 【答案】3120
  */
-public class Main2 {
+public class Main2_反幻方 {
 
     static int n = 9, count = 0;
     static int[] a = {1, 2, 3, 4, 5, 6, 7, 8, 9};

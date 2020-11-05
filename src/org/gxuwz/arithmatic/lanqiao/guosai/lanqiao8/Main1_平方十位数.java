@@ -22,7 +22,7 @@ import java.util.Arrays;
  *
  * 答案：9814072356
  */
-public class Main1 {
+public class Main1_平方十位数 {
 
     // 9, 8, 7, 6, 5, 4, 3, 2, 1, 0
     static int[] a = {9, 8, 7, 6, 5, 4, 3, 2, 1, 0};

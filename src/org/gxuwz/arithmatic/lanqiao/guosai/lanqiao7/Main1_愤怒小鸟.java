@@ -32,7 +32,7 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao7;
  * 【答案】9
  *
  */
-public class Main1 {
+public class Main1_愤怒小鸟 {
     // 记录撞击的总次数
     static int count = 0;
     static double B = 1000;

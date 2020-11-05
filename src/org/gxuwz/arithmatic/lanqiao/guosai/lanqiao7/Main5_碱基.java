@@ -76,5 +76,5 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao7;
  * 注意：主类的名字必须是：Main，否则按无效代码处理。
  *
  */
-public class Main5 {
+public class Main5_碱基 {
 }

@@ -21,7 +21,7 @@ import java.util.Arrays;
  *
  * 【答案】12
  */
-public class Main2 {
+public class Main2_五星填数 {
 
     static int[] a = {1, 2, 3, 4, 5, 6, 8, 9, 10, 12};
     static int count = 0;

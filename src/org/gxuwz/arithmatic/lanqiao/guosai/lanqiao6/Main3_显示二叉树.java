@@ -35,7 +35,7 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao6;
  *
  * 【答案】底部
  */
-public class Main3 {
+public class Main3_显示二叉树 {
     public static void main(String[] args) {
         BiTree tree = new BiTree(500);
         tree.add(new BiTree(200));

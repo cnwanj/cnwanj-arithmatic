@@ -47,5 +47,5 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao6;
  * 注意：主类的名字必须是：Main，否则按无效代码处理。
  *
  */
-public class Main6 {
+public class Main6_铺瓷砖 {
 }

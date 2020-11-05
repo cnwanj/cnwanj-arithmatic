@@ -1,5 +1,8 @@
 package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao8;
 
+import java.util.Arrays;
+import java.util.Scanner;
+
 /**
  * @Author: vovhh
  * @Date: 2020-10-30 19:14:39
@@ -61,5 +64,48 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao8;
  * 注意：主类的名字必须是：Main，否则按无效代码处理。
  *
  */
-public class Main6 {
+public class Main6_区间移位 {
+
+    static int n;
+    static int[] arr, arr1;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        arr = new int[n * 2];
+        arr1 = new int[n];
+        for (int i = 0; i < n * 2; i++) {
+            arr[i] = sc.nextInt();
+        }
+        // System.out.println(Arrays.toString(arr));
+        f();
+    }
+
+    /**
+     * 2
+     * 10 5010
+     * 4980 9980
+     */
+    static void f() {
+        for (int i = 0; i < n; i++) {
+            if (i == 0 && arr[i] != 0) {
+                // 存储起点偏移量
+                arr1[i] = arr[i];
+                // 起点右区间
+                arr[i + 1] -= arr[i];
+                // 左区间
+                arr[i] = 0;
+            } else if (i == n - 1 && arr[i * 2 + 1] != 1000) {
+                // 存储终点偏移量
+                arr1[i] = 10000 - arr[i * 2 + 1];
+                // 终点、左区间
+                arr[i * 2] += arr1[i];
+                // 右区间
+                arr[i * 2 + 1] = 10000;
+            }
+
+        }
+        System.out.println(Arrays.toString(arr));
+        System.out.println(Arrays.toString(arr1));
+    }
 }
