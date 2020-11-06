@@ -52,7 +52,7 @@ public class Main {
 
     static boolean check(int mid) {
         ArrayList<Section> temp = new ArrayList<Section>(array);
-        // 从0开始填充数轴,k为区间覆盖区域的右边界
+        // 从0开始填充数轴，k为区间覆盖区域的右边界
         int k = 0;
         while (true) {
             boolean flag = false;
@@ -62,7 +62,7 @@ public class Main {
                 // 获取右区间
                 int end = temp.get(i).end;
 
-                // 符合区间移动条件
+                // 符合区间移动条件[start-mid,end-mid]||[start+mid,end+mid]
                 if (start - mid <= k && end + mid >= k) {
                     if (start + mid >= k) {
                         // 即将填充的区间，没有覆盖已填充区域，则右边界k+整个区间

@@ -1,7 +1,6 @@
 package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao8;
 
-import java.util.Arrays;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * @Author: vovhh
@@ -107,5 +106,116 @@ public class Main6_区间移位 {
         }
         System.out.println(Arrays.toString(arr));
         System.out.println(Arrays.toString(arr1));
+    }
+}
+
+class Main6_区间移位1 {
+    static class Part implements Comparable<Part> {
+        int l, r;
+
+        public Part(int l, int r) {
+            this.l = l;
+            this.r = r;
+        }
+
+        @Override
+        public int compareTo(Part o) {
+            // 按照右区间进行升序排序
+            if (this.r != o.r) {
+                return this.r < o.r ? -1 : 1;
+            } else {
+                return this.l < o.l ? -1 : 1;
+            }
+        }
+
+        @Override
+        public String toString() {
+            return this.l + " " + this.r;
+        }
+    }
+
+    static ArrayList<Part> list = new ArrayList<Part>();
+    static int n;
+
+    /**
+     * 【样例输入】
+     * 2
+     * 4980 9980
+     * 10 5010
+     * 【样例输出】
+     * 20
+     * 【样例说明】
+     * 第一个区间往左移动10；第二个区间往右移动20。
+     * 【样例输入】
+     * 4
+     * 0 4000
+     * 3000 5000
+     * 5001 8000
+     * 7000 10000
+     * 【样例输出】
+     * 0.5
+     */
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        for (int i = 0; i < n; i++) {
+            list.add(new Part(sc.nextInt() * 2, sc.nextInt() * 2));
+        }
+
+        // 升序排序
+        Collections.sort(list);
+
+        int left = 0, right = 20000;
+        // 二分法
+        while (left < right) {
+            // 表示区间移动的距离
+            int mid = (left + right) / 2;
+            if (f(mid)) {
+                // 往左二分
+                right = mid;
+            } else {
+                // 往右二分
+                left = mid + 1;
+            }
+        }
+
+        if (left % 2 == 1)
+            System.out.println(left * 1.0 / 2);
+        else
+            System.out.println(left / 2);
+
+    }
+
+    static boolean f(int mid) {
+        // 复制区间集合
+        ArrayList<Part> ps = new ArrayList<Part>(list);
+        // 从0开始填充，k为区间覆盖的右边界
+        int k = 0;
+        while(true) {
+            boolean tag = false;
+            for (int i = 0; i < ps.size(); i++) {
+                // 获取左端点
+                int l = ps.get(i).l;
+                // 获取右端点
+                int r = ps.get(i).r;
+
+                // 左区间左移动 和 右区间右移动都在k覆盖的边界中[l-mid,r-mid]||[l+mid,r+mid]
+                if (l - mid <= k && r + mid >= k) {
+                    if (l + mid >= k) {
+                        // 填充整个区间
+                        k += r - l;
+                    } else {
+                        // 填充剩下的区间
+                        k = r + mid;
+                    }
+                }
+                tag = true;
+                ps.remove(i);
+                break;
+            }
+            if (!tag || k >= 20000)
+                break;
+        }
+        return k >= 20000;
     }
 }
