@@ -1,5 +1,6 @@
 package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao9;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -39,6 +40,7 @@ import java.util.Scanner;
  * 122221
  * 111111
  *
+ * 3 5
  * 11122
  * 11113
  * 33333
@@ -95,24 +97,98 @@ import java.util.Scanner;
  */
 public class Main4_整理玩具 {
 
-    static char[][] a, a1;
+    static char[][] a;
     static boolean[][] vis;
     static int[][] xy = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
-    static int N, M;
+    static int T, N, M, xMin = 0, yMin = 0, xMax = 0, yMax = 0;
 
+    /**
+     * 3 5
+     * 00022
+     * 00033
+     * 44444
+     *
+     * 3 5
+     * 11122
+     * 11122
+     * 33311
+     *
+     * 3 5
+     * 11122
+     * 11113
+     * 33333
+     * @param args
+     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-//        int T = sc.nextInt();
-        int N = sc.nextInt();
-        int M = sc.nextInt();
-        sc.nextLine();
-        a = new char[N][M];
-        for (int i = 0; i < N; i++) {
-            a[i] = sc.nextLine().toCharArray();
+        T = sc.nextInt();
+        for (int i = 0; i < T; i++) {
+            N = sc.nextInt();
+            M = sc.nextInt();
+            sc.nextLine();
+            a = new char[N][M];
+            vis = new boolean[N][M];
+            for (int j = 0; j < N; j++) {
+                a[j] = sc.nextLine().toCharArray();
+            }
+            f();
         }
-//        for (int i = 0; i < N; i++) {
-//            System.out.println(String.valueOf(a[i]));
-//        }
+        sc.close();
+    }
 
+    static void f() {
+        for (int i = 0; i < 10; i++) {
+            xMin = N;
+            yMin = M;
+            xMax = 0;
+            yMax = 0;
+            char c = (char)(i + '0');
+            boolean tag = false;
+            for (int j = 0; j < N; j++) {
+                for (int k = 0; k < M; k++) {
+                    if (!vis[j][k] && a[j][k] == c) {
+                        tag = true;
+                        vis[j][k] = true;
+                        dfs(j, k);
+                    }
+                }
+            }
+            if (tag && !isQuarter(c)) {
+                System.out.println("NO");
+                return;
+            }
+        }
+        System.out.println("YES");
+    }
+
+    static void dfs(int x, int y) {
+        if (x < xMin)
+            xMin = x;
+        if (y < yMin)
+            yMin = y;
+        if (x > xMax)
+            xMax = x;
+        if (y > yMax)
+            yMax = y;
+        for (int i = 0; i < xy.length; i++) {
+            int o = x + xy[i][0];
+            int p = y + xy[i][1];
+            if (o >= 0 && o < N && p >= 0 && p < M && !vis[o][p] && a[x][y] == a[o][p]) {
+                vis[o][p] = true;
+                dfs(o, p);
+            }
+        }
+    }
+
+    // 判断是否是矩形
+    static boolean isQuarter(char ch) {
+        for (int i = xMin; i <= xMax; i++) {
+            for (int j = yMin; j <= yMax; j++) {
+                if (a[i][j] != ch) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 }
