@@ -1,5 +1,8 @@
 package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao9;
 
+import java.util.ArrayList;
+import java.util.Scanner;
+
 /**
  * @Author: vovhh
  * @Date: 2020-11-06 12:41:34
@@ -15,9 +18,9 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao9;
  *
  *     1
  *    / \
- *   2  3
- *  /  / \
- * 5  4  6
+ *  2    3
+ *  \   / \
+ *  5  4  6
  *
  * 现在小明需要经常检查版本x是不是版本y的祖先版本。你能帮助小明吗？
  *
@@ -58,7 +61,6 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao9;
  * 峰值内存消耗（含虚拟机） < 256M
  * CPU消耗  < 1000ms
  *
- *
  * 请严格按要求输出，不要画蛇添足地打印类似：“请您输入...” 的多余内容。
  *
  * 所有代码放在同一个源文件中，调试通过后，拷贝提交该源码。
@@ -66,4 +68,53 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao9;
  * 主类的名字必须是：Main，否则按无效代码处理。
  */
 public class Main5_版本分支 {
+
+    static int N, Q, u, v, x, y;
+    static ArrayList<Integer>[] next = new ArrayList[100010];
+    static ArrayList<Integer>[] child = new ArrayList[100010];
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        Q = sc.nextInt();
+        // 最大长度初始化二叉树
+        for (int i = 1; i <= N; i++) {
+            next[i] = new ArrayList<Integer>();
+            child[i] = new ArrayList<Integer>();
+        }
+        // 构建二叉树
+        for (int i = 1; i < N; i++) {
+            u = sc.nextInt();
+            v = sc.nextInt();
+            next[u].add(v);
+        }
+        // 根节点获取
+        child[1] = getChild(1);
+        while(Q-- > 0) {
+            x = sc.nextInt();
+            y = sc.nextInt();
+            // 判断该父节点是否包含儿子
+            if (child[x].contains(y)) {
+                System.out.println("YES");
+            } else {
+                System.out.println("NO");
+            }
+        }
+        sc.close();
+    }
+
+    // 通过根节点复制next树到child上构建新的二叉树
+    static ArrayList<Integer> getChild(int root) {
+        // 获取当前根节点儿子的数量
+        int size = next[root].size();
+        // 遍历每个根节点的儿子
+        for (int i = 0; i < size; i++) {
+            // 递归查找next树，将每个节点的儿子添加到child中
+            child[root].addAll(getChild(next[root].get(i)));
+        }
+        // 回溯时添加父节点及儿子
+        child[root].add(root);
+        // 返回二叉树根节点
+        return child[root];
+    }
 }

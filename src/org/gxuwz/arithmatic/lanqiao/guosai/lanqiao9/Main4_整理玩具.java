@@ -102,23 +102,6 @@ public class Main4_整理玩具 {
     static int[][] xy = {{-1, 0}, {0, 1}, {1, 0}, {0, -1}};
     static int T, N, M, xMin = 0, yMin = 0, xMax = 0, yMax = 0;
 
-    /**
-     * 3 5
-     * 00022
-     * 00033
-     * 44444
-     *
-     * 3 5
-     * 11122
-     * 11122
-     * 33311
-     *
-     * 3 5
-     * 11122
-     * 11113
-     * 33333
-     * @param args
-     */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         T = sc.nextInt();
@@ -137,13 +120,18 @@ public class Main4_整理玩具 {
     }
 
     static void f() {
+        // 遍历查找玩具类型为0-9
         for (int i = 0; i < 10; i++) {
+            // 坐标点最小位置
             xMin = N;
             yMin = M;
+            // 坐标点最大位置
             xMax = 0;
             yMax = 0;
             char c = (char)(i + '0');
+            // 是否查找到该编号类型的玩具
             boolean tag = false;
+            // 对编号类型的玩具类型进行查找
             for (int j = 0; j < N; j++) {
                 for (int k = 0; k < M; k++) {
                     if (!vis[j][k] && a[j][k] == c) {
@@ -153,6 +141,7 @@ public class Main4_整理玩具 {
                     }
                 }
             }
+            // 若该矩形内玩具没有全部一样
             if (tag && !isQuarter(c)) {
                 System.out.println("NO");
                 return;
@@ -162,6 +151,7 @@ public class Main4_整理玩具 {
     }
 
     static void dfs(int x, int y) {
+        // 查找最大最小坐标值
         if (x < xMin)
             xMin = x;
         if (y < yMin)
@@ -173,6 +163,7 @@ public class Main4_整理玩具 {
         for (int i = 0; i < xy.length; i++) {
             int o = x + xy[i][0];
             int p = y + xy[i][1];
+            // 深度遍历查找相同的玩具
             if (o >= 0 && o < N && p >= 0 && p < M && !vis[o][p] && a[x][y] == a[o][p]) {
                 vis[o][p] = true;
                 dfs(o, p);
@@ -182,6 +173,7 @@ public class Main4_整理玩具 {
 
     // 判断是否是矩形
     static boolean isQuarter(char ch) {
+        // 遍历矩形内的元素是否一样
         for (int i = xMin; i <= xMax; i++) {
             for (int j = yMin; j <= yMax; j++) {
                 if (a[i][j] != ch) {
