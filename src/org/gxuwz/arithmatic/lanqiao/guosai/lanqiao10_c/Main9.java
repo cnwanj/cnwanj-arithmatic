@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao10;
+package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao10_c;
 
 /**
  * @Author: 韦永恒
