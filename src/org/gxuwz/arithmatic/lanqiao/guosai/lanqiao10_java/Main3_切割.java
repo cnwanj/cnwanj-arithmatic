@@ -18,4 +18,15 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao10_java;
  *
  */
 public class Main3_切割 {
+
+    public static void main(String[] args) {
+        int[] a = new int[2];
+        int b = 0;
+        f(0);
+    }
+
+    static void f(int... v) {
+
+    }
+
 }

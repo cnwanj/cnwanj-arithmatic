@@ -1,5 +1,10 @@
 package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao10_java;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Scanner;
+import java.util.Set;
+
 /**
  * @Author: vovhh
  * @Date: 2020-11-10 22:35:26
@@ -54,6 +59,80 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao10_java;
  * 这是一道结果填空的题，你只需要算出结果后提交即可。本题的结果为一
  * 个整数，在提交答案时只填写这个整数，填写多余的内容将无法得分。
  *
+ * 答案：52800
  */
 public class Main1_递增序列 {
+
+    static int N = 30, M = 50, count = 0;
+//    static Set<String> set = new HashSet<String>();
+
+    /**
+     * LANN
+     * QIAO
+     * LANN
+     */
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        char[][] a = new char[N][M];
+        for (int i = 0; i < N; i++) {
+            a[i] = sc.nextLine().toCharArray();
+        }
+
+//        for (int i = 0; i < N; i++) {
+//            System.out.println(Arrays.toString(a[i]));
+//        }
+
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < M; j++) {
+                // 行
+                for (int k = j + 1; k < M; k++) {
+                    if (a[i][j] < a[i][k]) {
+                        count ++;
+//                        System.out.println(a[i][j] + "" + a[i][k]);
+                    }
+                }
+                // 列
+                for (int k = i + 1; k < N; k++) {
+                    if (a[i][j] < a[k][j]) {
+                        count ++;
+//                        System.out.println(a[i][j] + "" + a[k][j]);
+                    }
+                }
+                // 右下斜线
+                int x = i + 1;
+                int y = j + 1;
+                while (x < N && y < M && x >= 0 && y >= 0) {
+                    if (a[i][j] < a[x][y]) {
+                        count ++;
+//                        System.out.println(a[i][j] + "" + a[x][y]);
+                    }
+                    x++;
+                    y++;
+                }
+                // 左下斜线
+                x = i + 1;
+                y = j - 1;
+                while (x < N && y < M && x >= 0 && y >= 0) {
+                    if (a[i][j] < a[x][y]) {
+                        count ++;
+//                        System.out.println(a[i][j] + "" + a[x][y]);
+                    }
+                    x++;
+                    y--;
+                }
+                // 右上斜线
+                x = i - 1;
+                y = j + 1;
+                while (x < N && y < M && x >= 0 && y >= 0) {
+                    if (a[i][j] < a[x][y]) {
+                        count ++;
+//                        System.out.println(a[i][j] + "" + a[x][y]);
+                    }
+                    x--;
+                    y++;
+                }
+            }
+        }
+        System.out.println(count);
+    }
 }
