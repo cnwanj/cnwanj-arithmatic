@@ -27,7 +27,7 @@ import java.util.Scanner;
  * 5 5
  * 00100
  * 11111
- * 00101
+ * 00100
  * 11111
  * 00100
  *
@@ -55,9 +55,6 @@ public class Main9_估计人数 {
                 a[i][j] = Integer.parseInt(s[j]);
             }
         }
-//        for (int i = 0; i < N; i++) {
-//            System.out.println(Arrays.toString(a[i]));
-//        }
         f();
     }
 
@@ -68,10 +65,10 @@ public class Main9_估计人数 {
                     vis[i][j] = true;
                     dfs(i, j);
                     count ++;
-                    for (int k = 0; k < N; k++) {
-                        System.out.println(Arrays.toString(vis[k]));
-                    }
-                    System.out.println();
+//                    for (int k = 0; k < N; k++) {
+//                        System.out.println(Arrays.toString(vis[k]));
+//                    }
+//                    System.out.println();
                 }
             }
         }

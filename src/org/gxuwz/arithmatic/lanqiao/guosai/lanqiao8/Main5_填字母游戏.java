@@ -142,7 +142,6 @@ class Main5_填字母游戏1 {
 
     static Map<String, Integer> map;
     static int n;
-    static String[] arr;
 
     public static void main(String[] args) {
         map = new HashMap<String, Integer>();
@@ -193,7 +192,6 @@ class Main5_填字母游戏1 {
                 ch[i] = '*';
                 if (res == -1)
                     return 1;
-
                 if (res == 0)
                     tag = 0;
             }

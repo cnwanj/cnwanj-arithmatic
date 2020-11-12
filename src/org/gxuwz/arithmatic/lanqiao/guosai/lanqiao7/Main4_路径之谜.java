@@ -8,7 +8,7 @@ import java.util.Scanner;
  * @Date: 2020-10-28 09:30:43
  * @Description:
  *
- * 路径之谜
+ * 标题：路径之谜
  *
  * 小明冒充X星球的骑士，进入了一个奇怪的城堡。
  *
@@ -94,7 +94,6 @@ public class Main4_路径之谜 {
         vis = new boolean[N][N];
         // 记录经过的路径
         path = new int[N][N];
-        int c = 0;
         for (int i = 0; i < arr1.length; i++) {
             String[] s = sc.nextLine().split(" ");
             for (int j = 0; j < N; j++) {
@@ -102,6 +101,7 @@ public class Main4_路径之谜 {
             }
         }
         sc.close();
+        int c = 0;
         for (int i = 0; i < N; i++) {
             for (int j = 0; j < N; j++) {
                 arr[i][j] = c ++;
@@ -149,7 +149,9 @@ public class Main4_路径之谜 {
                 vis[o][p] = true;
                 // 记录经过的路径
                 path[o][p] += path[x][y] + 1;
+
                 dfs(o, p);
+
                 arr1[0][p] += 1;
                 arr1[1][o] += 1;
                 vis[o][p] = false;

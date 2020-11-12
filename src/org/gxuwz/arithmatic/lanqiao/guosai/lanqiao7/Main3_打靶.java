@@ -47,7 +47,7 @@ public class Main3_打靶 {
 
         for (int i = 0; i <= bu; i++) {
             da[k] = i;
-             f(ta, da, k + 1, bu - 1, bu - i, sc - ta[k] * i);   // 填空位置
+            // f(ta, da, k + 1, _________, bu - i, sc - ta[k] * i);   // 填空位置
         }
 
         da[k] = 0;
@@ -59,6 +59,11 @@ public class Main3_打靶 {
         f(ta, da, 0, 3, 6, 96);
     }
 }
+
+
+
+
+
 
 
 

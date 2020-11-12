@@ -88,8 +88,14 @@ public class Main5_版本分支 {
             v = sc.nextInt();
             next[u].add(v);
         }
-        // 根节点获取
+//        for (int i = 1; i < next.length; i++) {
+//            System.out.println(i + " " + next[i]);
+//        }
+        // 将父节点的所有子节点（包括自己）都放入自己的子节点集合中
         child[1] = getChild(1);
+//        for (int i = 1; i < child.length; i++) {
+//            System.out.println(i + " " + child[i]);
+//        }
         while(Q-- > 0) {
             x = sc.nextInt();
             y = sc.nextInt();
@@ -112,9 +118,9 @@ public class Main5_版本分支 {
             // 递归查找next树，将每个节点的儿子添加到child中
             child[root].addAll(getChild(next[root].get(i)));
         }
-        // 回溯时添加父节点及儿子
+        // 将自己添加到子节点集合中
         child[root].add(root);
-        // 返回二叉树根节点
+        // 返回二叉树根及自己的所有节点
         return child[root];
     }
 }

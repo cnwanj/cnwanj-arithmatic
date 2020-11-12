@@ -18,4 +18,32 @@ package org.gxuwz.arithmatic.lanqiao.guosai.lanqiao10_java;
  * 个整数，在提交答案时只填写这个整数，填写多余的内容将无法得分。
  */
 public class Main5_序列求和 {
+
+    public static void main(String[] args) {
+        int res = 0;
+        int[] cnt = new int[62];
+        for (int i = 1; true; i++) {
+            int tmp = cntDivisor(i);
+            if (tmp >= 60) {
+                cnt[60] = cnt[61] = i;
+                break;
+            }
+            if (cnt[tmp] == 0)
+                cnt[tmp] = i;
+        }
+        for (int i = 60; i > 0; i--) {
+            if (cnt[i] == 0 || cnt[i] > cnt[i + 1]) {
+                cnt[i] = cnt[i + 1];
+            }
+            res += cnt[i];
+        }
+        System.out.print(res);
+    }
+
+    static int cntDivisor(int num) {
+        int cnt = 1;
+        for (int i = 1, hi = num / 2; i <= hi; i++)
+            if (num % i == 0) cnt++;
+        return cnt;
+    }
 }

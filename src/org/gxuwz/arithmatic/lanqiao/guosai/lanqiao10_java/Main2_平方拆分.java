@@ -81,33 +81,32 @@ class Main2_平方拆分1 {
         if (num == 0)
             cnt++;
         else {
-            int high = (int)Math.sqrt(num);
-            for (int i = start + 1; i <= high; i++) {
+            for (int i = start + 1, high = (int)Math.sqrt(num); i <= high; i++) {
                 dfs(num - i * i, i);
             }
         }
     }
 }
 
-class Main2_平方拆分2 {
+class Main3 {
 
     static int count = 0;
 
     public static void main(String[] args) {
-        int n = (int)Math.sqrt(2019);
-        f(2019, -1, n);
+        f(2019, -1);
         System.out.println(count);
     }
 
-    static void f(int num, int p, int n) {
+    static void f(int num, int p) {
         if (num < 0)
             return;
-        if (num == 0)
+        if (num == 0) {
             count ++;
-        else {
-            for (int i = p + 1; i <= n; i++) {
-                f(num - i * i, i, n);
-            }
+            return;
         }
+        for (int i = p + 1; i <= 44; i++) {
+            f(num - i * i, i);
+        }
+
     }
 }

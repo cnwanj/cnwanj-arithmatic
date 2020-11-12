@@ -1,52 +1,58 @@
 package org.gxuwz.arithmatic.lanqiao;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Scanner;
 
 public class Main1 {
 
-    static boolean[] vis = new boolean[12345];
-    static long[][] arr = new long[300][300];
-    static List<Integer> list = new ArrayList<Integer>();
+    /**
+     * 6 5
+     * 1 2
+     * 1 3
+     * 2 5
+     * 3 6
+     * 3 4
+     * 1 1
+     * 1 4
+     * 2 6
+     * 5 2
+     * 6 4
+     */
+    static int N, Q, u, v, x, y;
+    static ArrayList<Integer>[] next = new ArrayList[100010];
+    static ArrayList<Integer>[] child = new ArrayList[100010];
 
     public static void main(String[] args) {
-        int n = 2019;
-        int m = (int)Math.sqrt(n);
-        boolean[] vis = new boolean[n];
-        vis[0] = true;
-        // 遍历n开方以内的数
-        for (int i = 2; i <= m; i++) {
-            // 已n开方以内的数的平方作为起点，步长加i
-            for (int j = i * i; j <= n; j += i) {
-                // 若为合数，设置为true
-                vis[j - 1] = true;
+        Scanner sc = new Scanner(System.in);
+        N = sc.nextInt();
+        Q = sc.nextInt();
+        for (int i = 1; i <= N; i++) {
+            next[i] = new ArrayList<Integer>();
+            child[i] = new ArrayList<Integer>();
+        }
+        for (int i = 1; i < N; i++) {
+            u = sc.nextInt();
+            v = sc.nextInt();
+            next[u].add(v);
+        }
+        child[1] = getChild(1);
+        while (Q-- > 0) {
+            x = sc.nextInt();
+            y = sc.nextInt();
+            if (child[x].contains(y)) {
+                System.out.println("YES");
+            } else {
+                System.out.println("NO");
             }
         }
-
-        for (int i = 0; i < vis.length; i++) {
-            if (!vis[i])
-                list.add(i + 1);
-        }
-
-//        for (int i = 0; i < arr.length; i++) {
-//            for (int j = 0; j < arr.length; j++) {
-//                arr[i][j] = -1;
-//            }
-//        }
-
-        System.out.println(f(0, 0));
     }
 
-    static long f(int p, int s) {
-        if (arr[p][s] != 0)
-            return arr[p][s];
-        if (s == 2019)
-            return 1;
-        if (p >= list.size() || s > 2019)
-            return 0;
-        long ans = 0;
-        ans += f(p + 1, s);
-        ans += f(p + 1, s + list.get(p));
-        return arr[p][s] = ans;
+    static ArrayList<Integer> getChild(Integer root) {
+        int size = next[root].size();
+        for (int i = 0; i < size; i++) {
+            child[root].addAll(getChild(next[root].get(i)));
+        }
+        child[root].add(root);
+        return child[root];
     }
 }

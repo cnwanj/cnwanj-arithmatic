@@ -20,10 +20,10 @@ import java.util.Scanner;
  *
  * 具体来说：
  *
- * 1. 当前细胞为存活状态时，当周围低于2个（不包含2个）存活细胞时， 该细胞变成死亡状态。（模拟生命数量稀少）
- * 2. 当前细胞为存活状态时，当周围有2个或3个存活细胞时， 该细胞保持原样。
+ * 1. 当前细胞为存活状态时，当周围低于2个（不包含2个）存活细胞时，该细胞变成死亡状态。（模拟生命数量稀少）
+ * 2. 当前细胞为存活状态时，当周围有2个或3个存活细胞时，该细胞保持原样。
  * 3. 当前细胞为存活状态时，当周围有3个以上的存活细胞时，该细胞变成死亡状态。（模拟生命数量过多）
- * 4. 当前细胞为死亡状态时，当周围有3个存活细胞时，该细胞变成存活状态。 （模拟繁殖）
+ * 4. 当前细胞为死亡状态时，当周围有3个存活细胞时，该细胞变成存活状态。（模拟繁殖）
  *
  * 当前代所有细胞同时被以上规则处理后, 可以得到下一代细胞图。按规则继续处理这一代的细胞图，可以得到再下一代的细胞图，周而复始。
  *
@@ -207,9 +207,12 @@ class Cell {
     }
 }
 
-class Main2_1 {
+class Main2_生命游戏1 {
+
     private static int[][] xy = {{-1, -1}, {-1, 0}, {-1, 1}, {0, 1}, {1, 1}, {1, 0}, {1, -1}, {0, -1}};
+    // liveCell 存活细胞、nextCell 下一代细胞
     private static List<Cell> liveCell = new ArrayList<>(), nextCell;
+    // 记录每一代存活的细胞数
     private static List<Integer> cellNum = new ArrayList<>();
     private static int N = 11, M = 38;
 
@@ -238,7 +241,7 @@ class Main2_1 {
                 }
             }
         }
-
+        sc.close();
         f();
     }
 
@@ -258,18 +261,6 @@ class Main2_1 {
             liveCell = nextCell;
         }
         getNum();
-    }
-
-    public static void getNum() {
-        System.out.println(cellNum.get(0));
-        for (int i = 0; i < cellNum.size() - 1; i++) {
-            System.out.println(cellNum.get(i + 1) + " " + (cellNum.get(i + 1) - cellNum.get(i)));
-        }
-        // 得出规律，每经过30代就整体+5
-        double dou = 1000000000;
-        // 每30代一轮：33333333 * 5 + 48（48为第10个）
-        int d = (int)dou / 30 * 5 + cellNum.get((int)dou % 30);
-        System.out.println(d);
     }
 
     public static void df(int index) {
@@ -305,6 +296,18 @@ class Main2_1 {
         if (count == 2 || count == 3) {
             nextCell.add(cell);
         }
+    }
+
+    public static void getNum() {
+        System.out.println(cellNum.get(0));
+        for (int i = 0; i < cellNum.size() - 1; i++) {
+            System.out.println(cellNum.get(i + 1) + " " + (cellNum.get(i + 1) - cellNum.get(i)));
+        }
+        // 得出规律，每经过30代就整体+5
+        double dou = 1000000000;
+        // 每30代一轮：33333333 * 5 + 48（48为第10个）
+        int d = (int)dou / 30 * 5 + cellNum.get((int)dou % 30);
+        System.out.println(d);
     }
 }
 
