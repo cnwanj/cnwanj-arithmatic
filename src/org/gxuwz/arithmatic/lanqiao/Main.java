@@ -1,72 +1,115 @@
 package org.gxuwz.arithmatic.lanqiao;
 
+//import java.util.Arrays;
+//
+//public class Main {
+//
+//    public static void main(String[] args) {
+//        int[] arr = {6, 3, 9, 2, 1, 6, 3, 9, 1, 6, 7, 10};
+//        f1(arr, 0, arr.length - 1);
+//        System.out.println(Arrays.toString(arr));
+//
+//    }
+//    static void f(int[] arr, int left, int right) {
+//        int l = left;
+//        int r = right;
+//        int mid = arr[(left + right) / 2];
+//        while (l < r) {
+//            while (arr[l] < mid)
+//                l += 1;
+//            while (mid < arr[r])
+//                r -= 1;
+//            if (l >= r)
+//                break;
+//
+//            int temp = arr[l];
+//            arr[l] = arr[r];
+//            arr[r] = temp;
+//
+//            if (arr[l] == mid)
+//                r -= 1;
+//            if (arr[r] == mid)
+//                l += 1;
+//        }
+//        if (l == r) {
+//            l += 1;
+//            r -= 1;
+//        }
+//        if (left < r)
+//            f(arr, left, r);
+//        if (l < right)
+//            f(arr, l, right);
+//    }
+//
+//    static void f1(int[] arr, int left, int right) {
+//        int l = left;
+//        int r = right;
+//        int mid = arr[(left + right) / 2];
+//        while(l < r) {
+//            while(arr[l] < mid)
+//                l += 1;
+//            while(mid < arr[r])
+//                r -= 1;
+//            if (l >= r)
+//                break;
+//
+//            int temp = arr[l];
+//            arr[l] = arr[r];
+//            arr[r] = temp;
+//
+//            if(arr[l] == mid)
+//                r -= 1;
+//            if(arr[r] == mid)
+//                l += 1;
+//        }
+//        if(l == r) {
+//            l += 1;
+//            r -= 1;
+//        }
+//        if(left < r)
+//            f1(arr, left, r);
+//        if(l < right)
+//            f1(arr, l, right);
+//    }
+//}
 import java.util.*;
 
 public class Main {
-
-    static Map<String, Integer> map = new HashMap<String, Integer>();
-    static int n;
-
-    /**
-     * 4
-     * ***
-     * L**L
-     * L**L***L
-     * L*****L
-     */
     public static void main(String[] args) {
-//        Scanner sc = new Scanner(System.in);
-//        n = sc.nextInt();
-//        sc.nextLine();
-//        for (int i = 0; i < n; i++) {
-//            char[] ch = sc.nextLine().toCharArray();
-//            System.out.println(f(ch));
-//        }
-
-        // 1173230247
-        Object ob1 = new Object();
-        Object ob2 = new Object();
-        System.out.println(ob1.hashCode());
-        System.out.println(ob2.hashCode());
-        System.out.println(ob1.equals(ob2));
-//        Map map = new Hashtable()
-//        Map map = new LinkedHashMap()
-        List l = new LinkedList();
-        List l1 = new ArrayList();
+        int[] arr = {5,6,3,7,9,0,4,3,5};
+        f(arr, 0, arr.length - 1);
+        System.out.println(Arrays.toString(arr));
     }
+    public static void f(int[] arr, int left, int right) {
+        int l = left;
+        int r = right;
+        int mid = arr[(left + right) / 2];
+        int temp = 0;
 
-    static int f(char[] ch) {
-        int tag = -1;
-        String s = String.valueOf(ch);
-        if (map.containsKey(s)) {
-            return map.get(s);
-        }
-        if (s.contains("LOL"))
-            return -1;
-        else if (!s.contains("*")) {
-            tag = 0;
-        }
+        while (l < r) {
+            while (arr[l] < mid)
+                l ++;
+            while (mid < arr[r])
+                r --;
 
-        for (int i = 0; i < ch.length; i++) {
-            if (ch[i] == '*') {
-                ch[i] = 'L';
-                int res = f(ch);
-                map.put(new String(ch), res);
-                ch[i] = '*';
-                if (res == -1)
-                    return 1;
-                if (res == 0)
-                    tag = 0;
-                ch[i] = 'O';
-                res = f(ch);
-                map.put(new String(ch), res);
-                ch[i] = '*';
-                if (res == -1)
-                    return 1;
-                if (res == 0)
-                    tag = 0;
-            }
+            if (l >= r)
+                break;
+            temp = arr[l];
+            arr[l] = arr[r];
+            arr[r] = temp;
+            if (arr[l] == mid)
+                r --;
+            if (arr[r] == mid)
+                l ++;
+
         }
-        return tag;
+        if (l == r) {
+            l ++;
+            r --;
+        }
+        if (left <  r)
+            f (arr, left, r);
+        if (l < right)
+            f (arr, l, right);
     }
 }
