@@ -5,98 +5,46 @@ import java.util.Arrays;
 public class Main {
 
     public static void main(String[] args) {
-        int[] arr = {6, 3, 9, 2, 1, 6, 3, 9, 1, 6, 7, 10};
-        f2(arr, 0, arr.length - 1);
-        System.out.println(Arrays.toString(arr));
-    }
-    static void f(int[] arr, int left, int right) {
-        int l = left;
-        int r = right;
-        int mid = arr[(left + right) / 2];
-        while (l < r) {
-            while (arr[l] < mid)
-                l += 1;
-            while (mid < arr[r])
-                r -= 1;
-            if (l >= r)
-                break;
+        int[] arr = {17, 3, 25, 14, 20, 9};
+        f(arr);
 
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-
-            if (arr[l] == mid)
-                r -= 1;
-            if (arr[r] == mid)
-                l += 1;
-        }
-        if (l == r) {
-            l += 1;
-            r -= 1;
-        }
-        if (left < r)
-            f(arr, left, r);
-        if (l < right)
-            f(arr, l, right);
     }
 
-    static void f1(int[] arr, int left, int right) {
-        int l = left;
-        int r = right;
-        int mid = arr[(left + right) / 2];
-        while(l < r) {
-            while(arr[l] < mid)
-                l += 1;
-            while(mid < arr[r])
-                r -= 1;
-            if (l >= r)
-                break;
-
-            int temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-
-            if(arr[l] == mid)
-                r -= 1;
-            if(arr[r] == mid)
-                l += 1;
+    static void f(int[] arr) {
+        int[] arr1 = new int[arr.length];
+        arr1[0] = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            // 标记是否有元素插入
+            boolean tag = true;
+            for (int j = 0; j < i; j++) {
+                // 若待插入元素 <= 新数组中的元素
+                if (arr[i] <= arr1[j]) {
+                    tag = false;
+                    // 将元素插入
+                    insert(arr1, j, arr[i], i);
+                    break;
+                }
+            }
+            // 若待插入元素没有插入，则将元素赋值给新数组最后一位
+            if (tag) {
+                // 将元素赋值最后一位
+                arr1[i] = arr[i];
+            }
         }
-        if(l == r) {
-            l += 1;
-            r -= 1;
-        }
-        if(left < r)
-            f1(arr, left, r);
-        if(l < right)
-            f1(arr, l, right);
+        System.out.println(Arrays.toString(arr1));
     }
 
-    static void f2(int[] arr, int left, int right) {
-        int l = left;
-        int r = right;
-        int mid = arr[(left + right) / 2];
-        int temp;
-        while (l < r) {
-            while (arr[l] < mid)
-                l++;
-            while (mid < arr[r])
-                r--;
-            if (l >= r)
-                break;
-            temp = arr[l];
-            arr[l] = arr[r];
-            arr[r] = temp;
-            if (arr[l] == mid)
-                r--;
-            if (arr[r] == mid)
-                l++;
+    /**
+     * 将元素插入指定的位置
+     * @param arr1  被插入元素
+     * @param p     插入下标
+     * @param ele   插入元素
+     * @param end   新数组结尾下标
+     */
+    static void insert(int[] arr1, int p, int ele, int end) {
+        for (int i = end; i > p; i--) {
+            arr1[i] = arr1[i - 1];
         }
-        if (l == r)
-            l++;
-            r--;
-        if (left < r)
-            f2(arr, left, r);
-        if (l < right)
-            f2(arr, l, right);
+        arr1[p] = ele;
     }
 }
