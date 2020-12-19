@@ -97,6 +97,7 @@ public class QuickSort {
         }
         Long time1 = System.currentTimeMillis();
         quick(arr, 0, arr.length - 1);
+        Arrays.sort(arr);
         Long time2 = System.currentTimeMillis();
         System.out.println(time2 - time1);
     }

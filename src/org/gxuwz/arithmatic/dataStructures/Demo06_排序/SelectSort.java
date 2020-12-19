@@ -3,15 +3,14 @@ package org.gxuwz.arithmatic.dataStructures.Demo06_排序;
 import java.util.Arrays;
 /**
  * 选择排序
- * 思路：先推算出第一躺的数字交换，再进行完善
- *      [101, 119, 34, 1]
- *      [1, 119, 34, 101]
- *      [1, 34, 119, 101]
- *      [1, 34, 101, 119]
+ * 思路：
+ *      以arr[i]为基准数。
+ *      找出i后面的最小数min。
+ *      若arr[i]大于min则进行交换。
  */
 public class SelectSort {
     public static void quick(int[] arr){
-        for(int j=0; j<arr.length-1; j++) {
+        for (int j = 0; j < arr.length - 1; j++) {
             // 假设第一个数为最小
             int min = arr[j];
             int index = 0;
@@ -25,8 +24,28 @@ public class SelectSort {
                 arr[index] = arr[j];// 第一个数赋值给最小的数
                 arr[j] = min;       // 最小的数赋值给第一个数
             }
-//            System.out.print(Arrays.toString(arr));
-//            System.out.println();
+        }
+    }
+    public static void quick1(int[] arr){
+        // 以第i个数组为基准数
+        for (int i = 0; i < arr.length - 1; i++) {
+            // 与基准数交换的元素下标
+            int p = i + 1;
+            // 与基准数要交换的最小数
+            int min = arr[i + 1];
+            // 遍历除i以后的元素
+            for (int j = i + 1; j < arr.length; j++) {
+                // 找出最小的数及最小数的下标
+                if (arr[j] < min) {
+                    min = arr[j];
+                    p = j;
+                }
+            }
+            // 若基准数大于找出的最小数，则将两数进行交换
+            if (arr[i] > min) {
+                arr[p] = arr[i];
+                arr[i] = min;
+            }
         }
     }
     public static void main(String[] args){
