@@ -13,76 +13,88 @@ import java.util.Arrays;
  */
 public class InsertSort {
 
-    static void f(int[] arr) {
-        int[] arr1 = new int[arr.length];
-        arr1[0] = arr[0];
-        for (int i = 1; i < arr.length; i++) {
-            // 标记是否有元素插入
-            boolean tag = true;
-            for (int j = 0; j < i; j++) {
-                // 若待插入元素 <= 新数组中的元素
-                if (arr[i] <= arr1[j]) {
-                    tag = false;
-                    // 将元素插入
-                    insert(arr1, j, arr[i], i);
-                    break;
-                }
-            }
-            // 若待插入元素没有插入，则将元素赋值给新数组最后一位
-            if (tag) {
-                // 将元素赋值最后一位
-                arr1[i] = arr[i];
-            }
-        }
-        System.out.println(Arrays.toString(arr1));
-    }
-
-    /**
-     * 将元素插入指定的位置
-     * @param arr1  被插入元素
-     * @param p     插入下标
-     * @param ele   插入元素
-     * @param end   新数组结尾下标
-     */
-    static void insert(int[] arr1, int p, int ele, int end) {
-        for (int i = end; i > p; i--) {
-            arr1[i] = arr1[i - 1];
-        }
-        arr1[p] = ele;
-    }
-
     public static void insert(int[] arr){
-        int insertVal = 0;
-        int index = 0;
-        for(int i=1; i<arr.length; i++){
+        for (int i = 1; i < arr.length; i++) {
             // 定义待插入的数
-            insertVal = arr[i];
+            int insertVal = arr[i];
             // 定义待插入的数前一位下标
-            index = i-1;
+            int index = i - 1;
             // 判断该下标是否大于0，前一位数是否大于待插入的数
-            while(index >= 0 && arr[index] > insertVal){
+            while (index >= 0 && arr[index] > insertVal) {
                 // 将前一位数赋给待插入数位置
-                arr[index+1] = arr[index];
+                arr[index + 1] = arr[index];
                 // 下标-1
                 index--;
             }
             // 将待插入的数插入到前一位数
-            arr[index+1] = insertVal;
-//            System.out.println(Arrays.toString(arr));
+            arr[index + 1] = insertVal;
         }
     }
 
     public static void main(String[] args){
-//        int[] arr = {101, 34, 119, 1};
-//        insert(arr);
-        // 测试排序算法速度
-        int[] arr = new int[80000];
-        for(int i=0; i<80000; i++){
-            arr[i] = (int)(Math.random()*8000000);
-        }
-        Long time1 = System.currentTimeMillis();
+        int[] arr = {17, 3, 25, 14, 20, 9};
         insert(arr);
-        Long time2 = System.currentTimeMillis();
-        System.out.println(time2-time1);
+        System.out.println(Arrays.toString(arr));
+
+        // 测试排序算法速度
+//        int[] arr = new int[80000];
+//        for(int i=0; i<80000; i++){
+//            arr[i] = (int)(Math.random()*8000000);
+//        }
+//        Long time1 = System.currentTimeMillis();
+//        insert(arr);
+//        Long time2 = System.currentTimeMillis();
+//        System.out.println(time2-time1);
+    }
+}
+
+/**
+ * 第二次写
+ */
+class InsertSort1 {
+    /**
+     * while循环方法
+     * @param arr
+     */
+    static void f1(int[] arr) {
+        for (int i = 1, len = arr.length; i < len; i++) {
+            // 待插入元素
+            int val = arr[i];
+            // 待插入元素前一位下标
+            int index = i - 1;
+            // 若待插入位置 > 0 && 已插入元素 > 待插入元素
+            while (index >= 0 && arr[index] > val) {
+                // 将已插入元素往后移
+                arr[index + 1] = arr[index];
+                // 下标往前移
+                index--;
+            }
+            // 已插入元素 <= 当待插入元素，退出循环，将待插入元素插入到前一位
+            arr[index + 1] = val;
+        }
+    }
+
+    /**
+     * for循环方法
+     * @param arr
+     */
+    static void f2(int[] arr) {
+        // 从第二个元素开始遍历待插入元素
+        for (int i = 1, len = arr.length; i < len; i++) {
+            // 定义待插入元素、待插入元素下标
+            int val = arr[i], index = i;
+            // 倒序遍历从待插入元素前一位开始
+            for (int j = i - 1; j >= 0; j--) {
+                // 若已插入元素 > 待插入元素
+                if (arr[j] > val) {
+                    // 将已插入元素往后移
+                    arr[j + 1] = arr[j];
+                    // 记录移动下标
+                    index = j;
+                }
+            }
+            // 将待插入元素插入数组中
+            arr[index] = val;
+        }
     }
 }

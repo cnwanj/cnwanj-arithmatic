@@ -42,19 +42,93 @@ public class ShellSort {
                 arr[in] = temp;
             }
         }
-//        System.out.println(Arrays.toString(arr));
     }
 
     public static void main(String[] args) {
-//        int[] arr = {8,9,1,7,2,3,5,4,6,0,12,11};
+//        int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
 //        shell1(arr);
-        int[] arr = new int[20000000];
-        for (int i = 0; i < 20000000; i++) {
+//        System.out.println(Arrays.toString(arr));
+
+        int[] arr = new int[10000000];
+        for (int i = 0; i < 10000000; i++) {
             arr[i] = (int) (Math.random() * 8000000);
         }
         Long time1 = System.currentTimeMillis();
         shell1(arr);
         Long time2 = System.currentTimeMillis();
         System.out.println(time2 - time1);
+    }
+}
+
+/**
+ * 第二次写
+ */
+class ShellSort1 {
+
+    public static void main(String[] args) {
+//        int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
+//        f2(arr);
+//        System.out.println(Arrays.toString(arr));
+
+        int[] arr = new int[10000000];
+        for (int i = 0; i < 10000000; i++) {
+            arr[i] = (int) (Math.random() * 8000000);
+        }
+        Long time1 = System.currentTimeMillis();
+        f2(arr);
+        Long time2 = System.currentTimeMillis();
+        System.out.println(time2 - time1);
+    }
+
+    /**
+     * 交换法
+     * @param arr
+     */
+    static void f1(int[] arr) {
+        // 循环遍历，每次步长 / 2
+        for (int len = arr.length, i = len / 2; i > 0; i /= 2) {
+            for (int k = i; k < len; k++) {
+                // 标记是否有元素交换
+                boolean tag = true;
+                for (int j = i; j < len; j++) {
+                    // 前面大于后面的元素，进行交换
+                    if (arr[j - i] > arr[j]) {
+                        tag = false;
+                        int temp = arr[j - i];
+                        arr[j - i] = arr[j];
+                        arr[j] = temp;
+                    }
+                }
+                if (tag)
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 移位法：
+     * 将后面小的数移动到最前来
+     * @param arr
+     */
+    static void f2(int[] arr) {
+        // 每次二分步长
+        for (int i = arr.length / 2; i > 0; i /= 2) {
+            // 遍历每次步长往后的元素
+            for (int j = i; j < arr.length; j++) {
+                // 保存待插入元素
+                int val = arr[j];
+                // 保存待插入元素下标
+                int index = j;
+                // index - i：左元素，j：右元素；左元素下标 >= 0 && 左元素 > 右元素
+                while (index - i >= 0 && arr[index - i] > val) {
+                    // 将左元素赋值给右元素（将元素往右移）
+                    arr[index] = arr[index - i];
+                    // 下标往前移一个步长
+                    index -= i;
+                }
+                // 若待插入元素 >= 左边元素，退出循环；将元素插入
+                arr[index] = val;
+            }
+        }
     }
 }
