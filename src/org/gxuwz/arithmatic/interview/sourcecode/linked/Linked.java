@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.practice.t3;
+package org.gxuwz.arithmatic.interview.sourcecode.linked;
 
 /**
  * @Author: vovhh

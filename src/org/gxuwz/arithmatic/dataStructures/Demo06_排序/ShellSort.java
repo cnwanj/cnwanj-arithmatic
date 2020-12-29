@@ -66,18 +66,18 @@ public class ShellSort {
 class ShellSort1 {
 
     public static void main(String[] args) {
-//        int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
-//        f2(arr);
-//        System.out.println(Arrays.toString(arr));
-
-        int[] arr = new int[10000000];
-        for (int i = 0; i < 10000000; i++) {
-            arr[i] = (int) (Math.random() * 8000000);
-        }
-        Long time1 = System.currentTimeMillis();
+        int[] arr = {8, 9, 1, 7, 2, 3, 5, 4, 6, 0};
         f2(arr);
-        Long time2 = System.currentTimeMillis();
-        System.out.println(time2 - time1);
+        System.out.println(Arrays.toString(arr));
+
+//        int[] arr = new int[10000000];
+//        for (int i = 0; i < 10000000; i++) {
+//            arr[i] = (int) (Math.random() * 8000000);
+//        }
+//        Long time1 = System.currentTimeMillis();
+//        f2(arr);
+//        Long time2 = System.currentTimeMillis();
+//        System.out.println(time2 - time1);
     }
 
     /**

@@ -32,19 +32,19 @@ public class InsertSort {
     }
 
     public static void main(String[] args){
-        int[] arr = {17, 3, 25, 14, 20, 9};
-        insert(arr);
-        System.out.println(Arrays.toString(arr));
+//        int[] arr = {17, 3, 25, 14, 20, 9};
+//        insert(arr);
+//        System.out.println(Arrays.toString(arr));
 
         // 测试排序算法速度
-//        int[] arr = new int[80000];
-//        for(int i=0; i<80000; i++){
-//            arr[i] = (int)(Math.random()*8000000);
-//        }
-//        Long time1 = System.currentTimeMillis();
-//        insert(arr);
-//        Long time2 = System.currentTimeMillis();
-//        System.out.println(time2-time1);
+        int[] arr = new int[800000];
+        for(int i=0; i<800000; i++){
+            arr[i] = (int)(Math.random()*8000000);
+        }
+        Long time1 = System.currentTimeMillis();
+        insert(arr);
+        Long time2 = System.currentTimeMillis();
+        System.out.println(time2-time1);
     }
 }
 
@@ -91,7 +91,8 @@ class InsertSort1 {
                     arr[j + 1] = arr[j];
                     // 记录移动下标
                     index = j;
-                }
+                } else
+                    break;
             }
             // 将待插入元素插入数组中
             arr[index] = val;
