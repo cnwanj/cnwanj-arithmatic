@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2_state_简写</title>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Weather extends React.Component {
+            // 设置初始值
+            state = {isHot: false}
+            render() {
+                const {isHot} = this.state
+                return <h2 id="title" onClick={this.Change}>今天天气很{isHot ? '热' : '冷'}</h2>
+            }
+            // 通过箭头函数()=>可以直接获得类的this指向
+            Change = () => {
+                const isHot = this.state.isHot
+                this.setState({isHot: !isHot})
+            }
+        }
+        ReactDOM.render(<Weather/>, document.getElementById('test'))
+    </script>
+</body>
+</html>

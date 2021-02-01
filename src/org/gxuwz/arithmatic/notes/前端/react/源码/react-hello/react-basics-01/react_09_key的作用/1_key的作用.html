@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_key的作用</title>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script src="../js/17.0.1/react.development.js"></script>
+    <script src="../js/17.0.1/react-dom.development.js"></script>
+    <script src="../js/17.0.1/babel.min.js"></script>
+    <script type="text/babel">
+        class Student extends React.Component {
+            state = {
+                students: [
+                    {id: 1, name: '张三', age: 17},
+                    {id: 2, name: '李四', age: 18}
+                ]
+            }
+
+            add = () => {
+                const {students} = this.state
+                const stu = {id: 3, name: '王五', age: 19}
+                this.setState({students: [stu, ...students]})
+            }
+
+            render() {
+                // <li>编号：{stu.id}</li>
+                return (
+                    <div>
+                        <button onClick={this.add}>添加</button>
+                        {
+                            this.state.students.map((stu, index) => {
+                                return (
+                                    <ul key={stu.id}>
+                                        <li>序号：{stu.id}</li>
+                                        <li>姓名：{stu.name}</li>
+                                        <li>年龄：{stu.age}</li>
+                                    </ul>
+                                )
+                            })
+                        }
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Student/>, document.getElementById('test'))
+    </script>
+</body>
+</html>

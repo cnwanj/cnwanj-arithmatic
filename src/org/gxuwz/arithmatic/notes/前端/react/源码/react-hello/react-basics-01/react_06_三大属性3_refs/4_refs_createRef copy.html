@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2_refs_回调函数形式</title>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Main extends React.Component {
+            // 返回一个容器，该容器存储着ref指向的节点
+            ref1 = React.createRef()
+            // 单击按钮事件触发
+            showData = () => {
+                // 输出input的值value
+                console.log(this.ref1.current.value)
+            }
+
+            render() {
+                return (
+                    <div>
+                        <input ref={this.ref1} type="text" placeholder="请输入"/>
+                        <br/>
+                        <button onClick={this.showData}>提交</button>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Main/>, document.getElementById("test"))
+    </script>
+</body>
+</html>

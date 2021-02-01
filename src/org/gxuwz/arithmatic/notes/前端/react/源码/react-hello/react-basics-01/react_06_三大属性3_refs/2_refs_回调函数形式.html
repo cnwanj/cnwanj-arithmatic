@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2_refs_回调函数形式</title>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Main extends React.Component {
+            // 单击按钮事件触发
+            showData = () => {
+                // 该this是对应的refs，即标签自身
+                const {input} = this
+                // 输出input的值value
+                alert(input.value)
+            }
+
+            render() {
+                // 通过回调函数传入参数c，在将c赋值给this.input。c是标签自身
+                return (
+                    <div>
+                        <input ref={c => this.input = c} type="text" placeholder="请输入"/>
+                        <br/>
+                        <button onClick={this.showData}>提交</button>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Main/>, document.getElementById("test"))
+    </script>
+</body>
+</html>

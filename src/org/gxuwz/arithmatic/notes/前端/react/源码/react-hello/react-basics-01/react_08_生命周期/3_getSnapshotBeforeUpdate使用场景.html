@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3_getSnapshotBeforeUpdate使用场景</title>
+    <style>
+        .list {
+            width: 200px;
+            height: 150px;
+            background-color: skyblue;
+            overflow: auto;
+        }
+        .news {
+            height: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script src="../js/17.0.1/react.development.js"></script>
+    <script src="../js/17.0.1/react-dom.development.js"></script>
+    <script src="../js/17.0.1/babel.min.js"></script>
+
+    <script type="text/babel">
+        class News extends React.Component {
+
+            state = {newsArr: []}
+
+            componentDidMount() {
+                const timer = setInterval(() => {
+                    console.log('添加了')
+                    const {newsArr} = this.state
+                    const news = '新闻' + (newsArr.length + 1)
+                    // 将新的元素追加在头部
+                    this.setState({newsArr: [news, ...newsArr]})
+                }, 1000)
+            }
+
+            getSnapshotBeforeUpdate() {
+                // 在更新前获取窗口高度
+                return this.refs.list.scrollHeight
+            }
+
+            componentDidUpdate(preProps, preState, height) {
+                // 将变化的高度不断加在滚动的高度上
+                // 向上滚动的距离 + (最新的高度 - 原来的高度)
+                this.refs.list.scrollTop += this.refs.list.scrollHeight - height
+            }
+
+            render() {
+                return (
+                    <div className="list" ref="list">
+                        {
+                            this.state.newsArr.map((n, index) => {
+                                return <div className="news" key={index}>{n}</div>
+                            })
+                        }
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<News/>, document.getElementById('test'))
+    </script>
+</body>
+</html>

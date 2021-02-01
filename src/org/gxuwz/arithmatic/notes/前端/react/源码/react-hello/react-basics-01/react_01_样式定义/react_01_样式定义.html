@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>react01-认识react</title>
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+</head>
+<body>
+    <div id="test"></div>
+    <script type="text/babel">
+        const data = ['Angular', 'React', 'Vue']
+        // 创建虚拟dom
+        const vdom = (
+            // className为css中的样式class
+            // 通过{{}}来定义style样式
+            <h1 id="title" className="title">
+                <span style={{color: 'white', fontSize: '20px'}}>Hello, React</span>
+            </h1>
+        )
+        // 将虚拟dom渲染到对应的test容器中
+        ReactDOM.render(vdom, document.getElementById('test'));
+        // console.log('虚拟dom', vdom)
+        // console.log('真实dom', document.getElementById('test'));
+    </script>
+    <style>
+        .title {
+            background-color: red;
+        }
+    </style>
+</body>
+</html>

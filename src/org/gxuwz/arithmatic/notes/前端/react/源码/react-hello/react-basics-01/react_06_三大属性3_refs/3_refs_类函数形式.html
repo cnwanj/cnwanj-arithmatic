@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3_refs_类函数形式</title>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Main extends React.Component {
+            state = {isHot: true}
+
+            change = () => {
+                const {isHot} = this.state
+                this.setState({isHot: !isHot})
+            }
+
+            click = (c) => {
+                console.log('我被更新了：', c)
+            }
+
+            render() {
+                const {isHot} = this.state
+                return (
+                    <div>
+                        <h1>{isHot ? '热' : '冷'}</h1>
+                        {/*会触发两次*/}
+                        {/*<button onClick={this.change} ref={c => console.log('我被更新了：', c)}>点击</button>*/}
+                        {/*不会触发两次*/}
+                        <button onClick={this.change} ref={this.click}>点击</button>
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Main/>, document.getElementById("test"))
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1_生命周期</title>
+</head>
+<body>
+    <div id="test"></div>
+
+    <script src="https://cdn.staticfile.org/react/16.4.0/umd/react.development.js"></script>
+    <script src="https://cdn.staticfile.org/react-dom/16.4.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.staticfile.org/babel-standalone/6.26.0/babel.min.js"></script>
+
+    <script type="text/babel">
+        class Live extends React.Component {
+            state = {opacity: 1}
+
+            // 组件挂载完毕触发
+            componentDidMount() {
+                this.timer = setInterval(() => {
+                    let {opacity} = this.state
+                    // 每次将透明度-0.1
+                    opacity -= 0.1
+                    // 当小于0时设置为1
+                    if (opacity <= 0) opacity = 1
+                    // 相当于this.setState({opacity: opacity})
+                    this.setState({opacity})
+                }, 500)
+            }
+
+            // 将要卸载组件触发
+            componentWillUnmount() {
+                clearInterval(this.timer)
+            }
+
+            // 卸载组件
+            death = () => {
+                ReactDOM.unmountComponentAtNode(document.getElementById('test'))
+            }
+
+            render() {
+                return (
+                    <div>
+                        <h1 style={{opacity: this.state.opacity}}>今天天气真不错</h1>
+                        <button onClick={this.death}>不错</button>    
+                    </div>
+                )
+            }
+        }
+        ReactDOM.render(<Live/>, document.getElementById('test'))
+    </script>
+</body>
+</html>
