@@ -1119,7 +1119,7 @@ React更新时生命周期如下：
 
 ## 5.组件中key的作用
 
-常见面试题：
+**常见面试题：**
 
 为什么key不建议用index下标做标识？
 
@@ -1156,12 +1156,20 @@ class Student extends React.Component {
             <div>
                 <button onClick={this.add}>添加</button>
                 {
-                    this.state.students.map((stu, index) => {
+                    this.state.students.map((s, index) => {
+                        return (
+                            <ul key={index}>
+                                <li>序号：{s.id}，姓名：{s.name}，年龄：{s.age}，</li>
+                            </ul>
+                        )
+                    })
+                }
+                <hr/>
+                {
+                    this.state.students.map((s, index) => {
                         return (
                             <ul key={stu.id}>
-                                <li>序号：{stu.id}</li>
-                                <li>姓名：{stu.name}</li>
-                                <li>年龄：{stu.age}</li>
+                                <li>序号：{s.id}，姓名：{s.name}，年龄：{s.age}，</li>
                             </ul>
                         )
                     })
@@ -1174,3 +1182,242 @@ ReactDOM.render(<Student/>, document.getElementById('test'))
 ```
 
 这里一般采用主键来标识key，这样避免了key重排序问题，也不会影响渲染效率。
+
+**重排序带来的危害：**
+
+在每条遍历的语句中添加上input输入框如下：
+
+```react
+<li>序号：{stu.id}，姓名：{stu.name}，年龄：{stu.age}，<input type="text"/></li>
+```
+
+分别输入序号到input中如下：
+
+![image-20210202153450556](upload/image-20210202153450556.png)
+
+点击“添加”按钮后，上面是index作为key的input的内容与数据错乱，下面是id作为key却没有影响。
+
+> ​		当在头部添加一条数据时，index会重新从0开始排序，即给原来的所有数据进行重排，Diffing算法在匹配过程中，key所在的标签及包含的子标签都会做对比，若子标签一样则不会重新渲染，而是渲染key所在标签的内容数据。
+
+![image-20210202153553440](upload/image-20210202153553440.png)
+
+**总结：index做为key会引发的问题？**
+
+- 若对数据进行逆序添加、逆序删除，或者其他更新操作会导致index发生重排序问题。
+- 若结构中包含输入类的DOM（input、checkbox、radio...），会产生错误的DOM渲染。
+- 若只是做一些数据展示，可以考虑用index，否则需要唯一标识的属性（id、电话号码、身份证...）做为key。
+
+# 三、基于React脚手架
+
+## 1.react脚手架
+
+- 快速创建一个基于react库的模板项目。
+  - 包含了所有需要的配置（语法检查、jsx编译、devServer...）。
+  - 下载好了所有相关依赖，可以显示一个简单效果。
+- create-react-app创建脚手架。
+- 技术架构为：react、webpack、es6、eslint。
+- 脚手架开发项目可以组件化、模块化、工程化。
+
+## 2.创建项目并启动
+
+```shell
+# 1. 全局安装，i是install的简写
+npm i create-react-app -g
+
+# 2. 切换到要创建的目录
+create-react-app hello-react
+
+# 3. 进入项目文件
+cd hello-react
+
+# 4. 启动项目
+npm start
+```
+
+注意：若在执行create-react-app hello-react命令比较慢时，可以采用以下方法：
+
+```shell
+# 将npm设置为淘宝镜像
+npm config set registry https://registry.npm.taobao.org
+
+# 测试是否成功
+npm config get registry
+
+# 输出如下，表示设置成功
+https://registry.npm.taobao.org/
+
+# 然后再输入以下命令看看会不会有惊喜
+create-react-app hello-react
+```
+
+启动成功后如下图所示：
+
+![image-20210202211704871](upload/image-20210202211704871.png)
+
+### 2.1项目相关文件解释
+
+--public：静态资源文件
+
+​	--favicon.icon：网页图标
+
+​	**--index.html：主页面**
+
+​	--logo192.png：logo图片
+
+​	--logo512.png：logo图片
+
+​	--manifest.json：应用加壳配置文件
+
+​	--robots.txt：爬虫协议文件，允许爬虫的内容
+
+--src：源文件夹
+
+​	--App.css：App组件的样式
+
+​	**--App.js：App组件**
+
+​	--App.test.js：用于给App做测试
+
+​	--index.css：样式
+
+​	**--index.js：入口文件**
+
+​	--logo.svg：logo图
+
+​	--reportWebVitals.js：检测记录页面的性能(需要web-vitals库的支持)
+
+​	--setupTests.js：做应用的组件测试(需要jest-dom库的支持)
+
+### 2.2index.html的文件内容解释
+
+```react
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <!-- %PUBLIC_URL%表示public路径 -->
+    <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
+    <!-- 开启立项视图，用于做移动端网页适配 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <!-- 用于配置浏览器页签 + 地址栏的颜色（仅支持安卓手机的浏览器） -->
+    <meta name="theme-color" content="#000000" />
+    <!-- 网页描述 -->
+    <meta
+      name="description"
+      content="Web site created using create-react-app"
+    />
+    <!-- 用于指定网页添加到手机主屏幕页签的图标 -->
+    <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
+    <!-- 应用加壳时的配置文件，即转为app移动端时需要配置相关的信息都在该文件中 -->
+    <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
+    <title>React App</title>
+  </head>
+  <body>
+    <!-- 若浏览器不支持js则显示对应内容出来 -->
+    <noscript>You need to enable JavaScript to run this app.</noscript>
+    <div id="root"></div>
+  </body>
+</html>
+```
+
+### 2.3手动创建文件
+
+将创建的项目中的public和src两个文件移动到当前目录下的01_react_basic文件夹中。并创建需要的核心文件如下：
+
+|--01_react_basic：基础脚手架
+
+​	|--public：基础public文件
+
+​	|--src：基础src文件
+
+|--public：自定义文件夹
+
+​	|--index.html：主页面
+
+|--src：自定义文件夹
+
+​	|--components：自定义组件
+
+​		|--Hello：组件文件夹
+
+​			|--Hello.css：组件css
+
+​			|--Hello.jsx：组件jsx文件
+
+​	|--App.js：App组件
+
+​	|--index.js：入口文件
+
+index.html：
+
+```react
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>react脚手架</title>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
+```
+
+App.js：
+
+```react
+// 创建组件App，引入React和Component，其中Component为独立暴露的形式，需要分别引入
+import React, {Component} from 'react'
+import Hello from './components/Hello/Hello'
+
+// 创建并暴露该组件
+export default class App extends Component {
+    render() {
+        return (
+            <div>
+                <Hello/>
+            </div>
+        )
+    }
+}
+```
+
+index.js：
+
+```react
+// 引入核心库
+import React from 'react'
+// 引入ReactDOM
+import ReactDOM from 'react-dom'
+// 引入组件
+import App from './App'
+
+// 渲染App到页面
+ReactDOM.render(<App/>, document.getElementById('root'))
+```
+
+Hello.jsx
+
+```react
+import React, {Component} from 'react'
+import './Hello.css'
+
+export default class Hello extends Component {
+    render() {
+        return <h1 className="title">Hello, 你好...</h1>
+    }
+}
+```
+
+Hello.css
+
+```react
+.title {
+    background-color: aqua;
+}
+```
+
+效果显示如下：
+
+![image-20210202232651168](upload/image-20210202232651168.png)
