@@ -1217,6 +1217,7 @@ ReactDOM.render(<Student/>, document.getElementById('test'))
 - create-react-app创建脚手架。
 - 技术架构为：react、webpack、es6、eslint。
 - 脚手架开发项目可以组件化、模块化、工程化。
+  - 工程化：能够完成语法检查、代码压缩、语法转换、兼容性处理等一系列自动的处理称为工程化。
 
 ## 2.创建项目并启动
 
@@ -1431,3 +1432,112 @@ Hello.css
 创建类组件：rcc
 
 创建方法组件：rfc
+
+### 2.4实现Todos信息展示小案例
+
+![image-20210204180242009](upload/image-20210204180242009.png)
+
+# 四、网络请求
+
+网络请求一般包括异步和同步，通常情况采用异步请求。
+
+## 1.axios发送异步请求
+
+1.jQuery: 比较重, 如果需要另外引入，不建议使用。
+
+2.axios: 轻量级, 建议使用。
+
+- 封装XmlHttpRequest对象的ajax。
+
+- promise风格。
+
+- 可以用在浏览器端和node服务器端。
+
+在使用axios前需要进行插件安装，如下：
+
+```shell
+# axios安装
+npm i axios
+```
+
+## 2.跨域问题
+
+一般在前后端分离中，由于端口号不同，需要进行解决跨域问题，通常有两种方法进行解决。
+
+### 2.3方法一
+
+在根目录下的package.json文件尾部添加，通过原端口代理到5000端口，如下：
+
+```json
+"proxy": "http://localhost:5000"
+```
+
+修改完请求地址后需要重启客户端
+
+```react
+// 服务器原来的地址端口为5000，配置了代理为3000的端口
+axios.get('http://localhost:3000/students').then(
+    res => {
+        console.log('成功', res);
+    },
+    err => {
+        console.log('失败', err);
+    }
+)
+```
+
+#### 注意：
+
+​		并不是所有请求3000端口的地址都是服务器的地址，因为请求过程中先请求本地是否存在，若不存在才会向服务器发起请求。
+
+请求以下路径就会请求本地资源：
+
+```shell
+http://localhost:3000/index.html
+```
+
+![image-20210204204518752](upload/image-20210204204518752.png)
+
+### 2.4方法二
+
+在src目录下创建配置文件：src/setupProxy.js
+
+该配置文件的内容如下：
+
+```js
+// 引入代理中间件
+const proxy = require('http-proxy-middleware')
+
+// 暴露该模块
+module.exports = function(app) {
+    app.use(
+        // 代理到api1的请求地址：http://localhost:5000/api1
+        proxy('/api1', {
+            // 服务端请求地址
+            target: 'http://localhost:5000',
+            // 控制服务器收到请求头Host的值，true：服务器接收到端口5000，否则为3000
+            changeOrigin: true,
+            // 将api1转换为空，成为最终的请求地址
+            pathRewrite: {'^/api1': ''}
+        }),
+        // 代理到api2的请求地址
+        proxy('/api2', {
+            target: 'http://localhost:5001',
+            changeOrigin: true,
+            pathRewrite: {'^/api2': ''}
+        }),
+    )
+}
+```
+
+通过如下路径分别请求不同服务器地址：
+
+```js
+// 地址1
+http://localhost:3000/api1
+
+// 地址2
+http://localhost:3000/api2
+```
+
+注意：端口为客户端开启的端口3000
