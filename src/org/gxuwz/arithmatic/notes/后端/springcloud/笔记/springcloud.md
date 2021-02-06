@@ -2,9 +2,7 @@
 
 ​		每个微服务都会向注册中心去注册自己的地址及端口信息，注册中心维护着服务名称与服务实例的对应关系。每个微服务都会定时从注册中心获取服务列表，同时汇报自己的运行情况，这样当有的服务需要调用其他服务时，就可以从自己获取到的服务列表中获取实例地址进行调用，Eureka实现了这套服务注册与发现机制。
 
-## 1.搭建Eureka注册中心
-
-### 1.1搭建Eureka服务端
+## 1.搭建Eureka服务端
 
 创建Maven父工程
 
@@ -76,7 +74,7 @@ eureka:
 
 ![image-20210205163212728](upload/image-20210205163212728.png)
 
-### 1.2搭建Eureka客户端
+## 2.搭建Eureka客户端
 
 新建一个eureka-client模块，注意：不要选择任何依赖，创建成功后在pom.xml中添加如下依赖：
 
@@ -132,7 +130,7 @@ eureka:
 
 ![image-20210205163658740](upload/image-20210205163658740.png)
 
-### 1.3搭建Eureka注册中心集群
+## 3.搭建Eureka注册中心集群
 
 > 由于所有服务都会注册到注册中心去，服务之间的调用都是通过从注册中心获取的服务列表来调用，注册中心一旦宕机，所有服务调用都会出现问题。所以我们需要多个注册中心组成集群来提供服务，下面将搭建一个双节点的注册中心集群。
 
@@ -232,7 +230,7 @@ eureka:
 
 ![image-20210205164958182](upload/image-20210205164958182.png)
 
-### 1.4给Eureka注册中心添加认证
+## 4.给Eureka注册中心添加认证
 
 创建一个eureka-security-server模块，并选中两个依赖如下：
 
@@ -333,8 +331,435 @@ eureka:
 **涉及到的模块**
 
 ```
-springcloud-learning
+springcloud-hello
 ├── eureka-server -- eureka注册中心
 ├── eureka-server-security -- 带登录认证的eureka注册中心
 └── eureka-client -- eureka客户端
 ```
+
+参考链接：https://thinkwon.blog.csdn.net/article/details/103726655
+
+# 二、Ribbon服务消费者（负载均衡策略）
+
+### Ribbon简介：
+
+在微服务架构中，很多服务都会部署多个，其他服务去调用该服务的时候，如何保证负载均衡是个不得不去考虑的问题。负载均衡可以增加系统的可用性和扩展性，当我们使用RestTemplate来调用其他服务时，Ribbon可以很方便的实现负载均衡功能。
+
+### RestTemplate的使用：
+
+RestTemplate是一个HTTP客户端，使用它我们可以方便的调用HTTP接口，支持GET、POST、PUT、DELETE等方法。
+
+### 负载均衡实现：
+
+```
+											   -> user-service（服务1）
+客户端请求 -> ribbon-service（负载均衡请求分发）-> |
+											   -> user-service（服务2）
+```
+
+每次请求都分别发放到不同的服务器。
+
+## 1.创建user-service模块
+
+user-service模块是给Ribbon-service模块提供服务的，目录如下：
+
+![image-20210206172442972](upload/image-20210206172442972.png)
+
+
+
+在启动类中添加@EnableDiscoveryClient注解。
+
+pom.xml中添加相关依赖如下：
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
+在application.yml进行配置：
+
+```yml
+server:
+  port: 8201
+
+spring:
+  application:
+    name: user-service
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
+```
+
+创建用户类User和统一返回前端的响应类Result。
+
+用户类User.class：
+
+```java
+public class User {
+
+    private Long id;
+    private String username;
+    private String password;
+
+    public User() {
+    }
+
+    public User(Long id, String username, String password) {
+        this.id = id;
+        this.username = username;
+        this.password = password;
+    }
+    
+    // 省略setter和getter方法
+}
+```
+
+响应类Result.class：
+
+```java
+public class Result<T> {
+
+    private T data;
+
+    private String message;
+
+    private int code;
+
+    public Result() {
+    }
+
+    public Result(T data, String message, int code) {
+        this.data = data;
+        this.message = message;
+        this.code = code;
+    }
+
+    public Result(String message, Integer code) {
+        this(null, message, code);
+    }
+
+    public Result(T data) {
+        this(data, "操作成功", 200);
+    }
+
+    // 省略setter和getter方法
+    
+}
+```
+
+添加UserController用于提供调用接口：
+
+```java
+@RestController
+@RequestMapping("/user/")
+public class UserController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+
+    @Autowired
+    private UserServiceImpl userService;
+
+    @PostMapping("insert")
+    public Result insert(@RequestBody User user) {
+        userService.insert(user);
+        return new Result("操作成功", 200);
+    }
+
+    @GetMapping("{id}")
+    public Result<User> getUser(@PathVariable Long id) {
+        User user = userService.getUser(id);
+        LOGGER.info("根据id获取的用户名称为：{}", user.getUsername());
+        return new Result<User>(user);
+    }
+
+    @GetMapping("listUsersByIds")
+    public Result<List<User>> listUsersByIds(@RequestParam List<Long> ids) {
+        List<User> users = userService.listUsersByIds(ids);
+        LOGGER.info("根据ids获取用户列表：{}", users);
+        return new Result<>(users);
+    }
+
+    @GetMapping("getByUsername")
+    public Result<User> getByUsername(@RequestParam String username) {
+        User user = userService.getByUsername(username);
+        return new Result<>(user);
+    }
+
+    @PostMapping("update")
+    public Result update(@RequestBody User user) {
+        userService.update(user);
+        return new Result("操作成功", 200);
+    }
+
+    @PostMapping("delete/{id}")
+    public Result delete(@PathVariable Long id) {
+        userService.delete(id);
+        return new Result("操作成功", 200);
+    }
+}
+```
+
+添加UserServiceImpl实现类如下：
+
+```java
+@Service
+public class UserServiceImpl implements UserService {
+
+    private List<User> userList;
+
+    @Override
+    public void insert(User user) {
+        userList.add(user);
+    }
+
+    @Override
+    public User getUser(Long id) {
+        List<User> list = userList.stream().filter(u -> u.getId().equals(id)).collect(Collectors.toList());
+        return !CollectionUtils.isEmpty(list) ? list.get(0) : null;
+    }
+
+    @Override
+    public void update(User user) {
+        userList.stream().filter(u -> u.getId().equals(user.getId())).forEach(u -> {
+            u.setUsername(user.getUsername());
+            u.setPassword(user.getPassword());
+        });
+    }
+
+    @Override
+    public void delete(Long id) {
+        User user = getUser(id);
+        if (user != null) userList.remove(user);
+    }
+
+    @Override
+    public User getByUsername(String username) {
+        List<User> list = userList.stream().filter(u -> u.getUsername().equals(username)).collect(Collectors.toList());
+        return !CollectionUtils.isEmpty(list) ? list.get(0) : null;
+    }
+
+    @Override
+    public List<User> listUsersByIds(List<Long> ids) {
+        return userList.stream().filter(u -> ids.contains(u.getId())).collect(Collectors.toList());
+    }
+
+    @PostConstruct
+    public void initData() {
+        userList = new ArrayList<>();
+        userList.add(new User(1L, "jourwon", "123456"));
+        userList.add(new User(2L, "andy", "123456"));
+        userList.add(new User(3L, "mark", "123456"));
+    }
+}
+```
+
+## 2.创建ribbon-service模块
+
+>  ribbon-service模块请求调用user-service模块实现负载均衡。
+
+目录如下：
+
+![image-20210206205631093](upload/image-20210206205631093.png)
+
+在启动类中添加@EnableDiscoveryClient注解。
+
+pom.xml中添加相关依赖如下：
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+
+<!--最新版本的eureka整合了ribbon，只要引入eureka依赖即可-->
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+
+<!--而之前的版本需要分别引入ribbon依赖如下-->
+<!--<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+</dependency>-->
+```
+
+在application.yml进行配置，如下：
+
+```yml
+server:
+  port: 8301
+
+spring:
+  application:
+    name: ribbon-service
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8000/eureka/
+
+service-url:
+  user-service: http://user-service/
+```
+
+使用@LoadBalanced注解赋予RestTemplate负载均衡的能力，创建RibbonConfig配置类如下：
+
+```java
+@Configuration
+public class RibbonConfig {
+
+    @Bean
+    @LoadBalanced // 开启RestTemplate负载均衡功能
+    public RestTemplate restTemplate() {
+        return new RestTemplate();
+    }
+}
+```
+
+创建UserRibbonController类如下：
+
+```java
+@RestController
+@RequestMapping("/user")
+public class UserRibbonController {
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Value("${service-url.user-service}")
+    private String userServiceUrl;
+
+    @GetMapping("/{id}")
+    public Result getUser(@PathVariable Long id) {
+        return restTemplate.getForObject(userServiceUrl + "user/{1}", Result.class, id);
+    }
+
+    @GetMapping("/getByUsername")
+    public Result getByUsername(@RequestParam String username) {
+        return restTemplate.getForObject(userServiceUrl + "user/getByUsername?username={1}", Result.class, username);
+    }
+
+    @GetMapping("/getEntityByUsername")
+    public Result getEntityByUsername(@RequestParam String username) {
+        ResponseEntity<Result> entity = restTemplate.getForEntity(userServiceUrl + "user/getEntityByUsername?username={1}", Result.class, username);
+        if (entity.getStatusCode().is2xxSuccessful())
+            return entity.getBody();
+        else
+            return new Result("操作失败", 500);
+    }
+
+    @PostMapping("/insert")
+    public Result insert(@RequestParam User user) {
+        return restTemplate.postForObject(userServiceUrl + "user/insert", user, Result.class);
+    }
+
+    @PostMapping("/update")
+    public Result update(@RequestParam User user) {
+        return restTemplate.postForObject(userServiceUrl + "user/update", user, Result.class);
+    }
+    @PostMapping("/delete/{id}")
+    public Result delete(@PathVariable Long id) {
+        return restTemplate.postForObject(userServiceUrl + "user/delete{1}", null, Result.class, id);
+    }
+}
+```
+
+启动eureka-server于8000端口；
+
+启动user-service于8201端口；
+
+启动另一个user-service为8202端口，可以通过修改IDEA中的SpringBoot的启动配置实现：
+
+![image-20210206205827353](upload/image-20210206205827353.png)
+
+启动ribbon-service于8301端口；
+
+访问eureka-server服务注册中心http://localhost:8000显示如下，user-service两个端口和ribbon-service都注册放到了服务中心：
+
+![image-20210206210334280](upload/image-20210206210334280.png)
+
+回调数据如下：
+
+![image-20210206210505182](upload/image-20210206210505182.png)
+
+可以发现运行在8201和8202的user-service控制台交替打印如下信息：
+
+user-service:8201：
+
+![image-20210206210629038](upload/image-20210206210629038.png)
+
+user-service:8202：
+
+![image-20210206210712926](upload/image-20210206210712926.png)
+
+### Ribbon的常用配置：
+
+全局配置：
+
+```yml
+ribbon:
+  ConnectTimeout: 1000 #服务请求连接超时时间（毫秒）
+  ReadTimeout: 3000 #服务请求处理超时时间（毫秒）
+  OkToRetryOnAllOperations: true #对超时请求启用重试机制
+  MaxAutoRetriesNextServer: 1 #切换重试实例的最大个数
+  MaxAutoRetries: 1 # 切换实例后重试最大次数
+  NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #修改负载均衡算法
+```
+
+指定服务进行配置：
+
+>  就是针对挂载在ribbon下的节点进行配置，如下就是ribbon-service调用user-service时的单独配置。
+
+```yml
+user-service:
+  ribbon:
+    ConnectTimeout: 1000 #服务请求连接超时时间（毫秒）
+    ReadTimeout: 3000 #服务请求处理超时时间（毫秒）
+    OkToRetryOnAllOperations: true #对超时请求启用重试机制
+    MaxAutoRetriesNextServer: 1 #切换重试实例的最大个数
+    MaxAutoRetries: 1 # 切换实例后重试最大次数
+    NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule #修改负载均衡算法
+```
+
+### Ribbon的负载均衡策略：
+
+负载均衡策略，就是当A服务调用B服务时，此时B服务有多个实例，这时A服务以何种方式来选择调用的B实例。ribbon可以选择以下几种负载均衡策略：
+
+1. com.netflix.loadbalancer.RandomRule：从提供服务的实例中以随机的方式；
+
+2. com.netflix.loadbalancer.RoundRobinRule：以线性轮询的方式，就是维护一个计数器，从提供服务的实例中按顺序选取，第一次选第一个，第二次选第二个，以此类推，到最后一个以后再从头来过；
+
+3. com.netflix.loadbalancer.RetryRule：在RoundRobinRule的基础上添加重试机制，即在指定的重试时间内，反复使用线性轮询策略来选择可用实例；
+
+4. com.netflix.loadbalancer.WeightedResponseTimeRule：对RoundRobinRule的扩展，响应速度越快的实例选择权重越大，越容易被选择；
+
+5. com.netflix.loadbalancer.BestAvailableRule：选择并发较小的实例；
+
+6. com.netflix.loadbalancer.AvailabilityFilteringRule：先过滤掉故障实例，再选择并发较小的实例；
+
+7. com.netflix.loadbalancer.ZoneAwareLoadBalancer：采用双重过滤，同时过滤不是同一区域的实例和故障实例，选择并发较小的实例。
+
+**涉及到的模块**
+
+```
+springcloud-hello
+├── eureka-server -- eureka注册中心
+├── user-service -- 提供User对象CRUD接口的服务
+└── ribbon-service -- ribbon服务调用测试服务
+```
+
+参考链接：https://blog.csdn.net/ThinkWon/article/details/103729080
+

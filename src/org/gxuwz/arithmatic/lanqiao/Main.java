@@ -1,14 +1,19 @@
 package org.gxuwz.arithmatic.lanqiao;
 
-import java.util.Arrays;
-
 public class Main {
 
-    public static void main(String[] args) {
-        int[] arr = new int[]{1, 2, 3};
-        int[] arr2 = Arrays.copyOf(arr, arr.length);
-        System.out.println(arr.hashCode());
-        System.out.println(arr2.hashCode());
+    private static int num = 0;
+
+    public static void main(String[] args) throws InterruptedException {
+        for (int i = 0; i < 100; i++) {
+            new Thread(() -> {
+                for (int j = 0; j < 3000; j++) {
+                    num++;
+                }
+            }).start();
+        }
+        Thread.sleep(2000);
+        System.out.println(num);
     }
 }
 

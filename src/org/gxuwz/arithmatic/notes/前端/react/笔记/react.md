@@ -276,7 +276,7 @@ ReactDOM.render(<Main/>, document.getElementById('test'))
 - 在调用<Main/>标签过程中，会new出该实例对象来，并通过实例调用到原型上的render()方法。
 - 将render中的虚拟dom解析成真实的dom，并返回渲染到页面上。
 
-## 3.组件实例对象的三大核心属性：state（状态）、props（属性）、refs（引用）
+## 3.React组件实例对象的三大核心属性：state（状态）、props（属性）、refs（引用）
 
 ### 3.1 属性1-state（状态）
 
