@@ -39,7 +39,7 @@ cd bin/
 ./activemq stop
 ```
 
-启动成功后，在浏览器输入http://120.25.151.112:8161，8161ActiveMQ 默认端口号，这时候需要进行登录，默认账号密码都是admin，登录成功后如下：
+启动成功后，在浏览器输入http://localhost:8161，8161ActiveMQ 默认端口号，这时候需要进行登录，默认账号密码都是admin，登录成功后如下：
 
 ![image-20210209153051269](upload/image-20210209153051269.png)
 
@@ -64,7 +64,7 @@ Spring Boot ActiveMQ 置提供了相关的“ Starter ”，因此整合非常�
 spring:
   activemq:
     # 配置broker地址，默认端口为61616
-    broker-url: tcp://120.25.151.112:61616
+    broker-url: tcp://localhost:61616
     packages:
       # 支持发送对象消息
       trust-all: true
@@ -158,82 +158,40 @@ RabbitMQ是一个实现了 AMQP 的开源消息中间件，使用高性能的 Er
 
 #### 2.1.2 RabbitMQ安装：
 
-由于RabbitMQ使用Erlang编写，因此需要先安装Erlang环境CentOS中安装Erlang 21.0 的步骤如下：
+参考链接：[https://www.helloweba.net/server/624.html](https://www.helloweba.net/server/624.html)
 
-##### (1) 安装Erlang
+由于RabbitMQ使用Erlang编写，安装 RabbitMQ 之前要安装 Erlang，需要先到[RabbitMQ官网](https://www.rabbitmq.com/which-erlang.html)看下版本对应关系。可以分别在[Erlang的Github](https://github.com/rabbitmq/erlang-rpm/releases)和[RabbitMQ官网](https://www.rabbitmq.com/install-rpm.html#downloads)下载对应的版本的rpm包。下载步骤如下：
 
 ```shell
-# 1.下载安装包
-wget http://erlang.org/download/otp_src_21.0.tar.gz
+# 下载erlang
+wget https://github.com/rabbitmq/erlang-rpm/releases/download/v23.2.4/erlang-23.2.4-1.el7.x86_64.rpm
 
-# 2.解压文件
-tar -zxvf otp_src_21.0.tar.gz
-cd otp_src_21.0.tar.gz
+# 下载rabbitmq
+wget https://github.com/rabbitmq/rabbitmq-server/releases/download/v3.8.11/rabbitmq-server-3.8.11-1.el7.noarch.rpm
 
-# 3.编译
-./otp_build autoconf
+# 安装socat依赖，安装Erlang时需要
+yum install -y socat
 
-# 若出现报错：./otp_build: line 319: autoconf: command not found，需要安装autoconf
-yum install -y autoconf
+# 安装Erlang
+rpm -ivh erlang-22.2-1.el7.x86_64.rpm
 
-
-# 重新编译，再执行如下命令
-./configure
-make
-
-# 4.安装
-make install
-
-# 5.检查
+# 查看Erlang安装版本
 erl -version
 
-# 6.出现如下，表示安装成功
-Erlang (SMP,ASYNC_THREADS,HIPE) (BEAM) emulator version 10.0
-```
+# 6.安装RabbitMQ
+rpm -ivh rabbitmq-server-3.8.1-1.el7.noarch.rpm
 
-由于 yum 仓库中默认的 Erlang 版本较低，因此首先需要将最新的 Erlang 包添加到 yum 源中，执行如下命令：
+# 启动rabbitmq
+systemctl start rabbitmq-server 或 service rabbitmq-server start
 
-```shell
-# 1.将最新的Erlang包添加到yum源中
-vim /etc/yum.repos.d/rabbitmq-erlang.repo
-
-# 2.添加内容
-[rabbitmq-erlang]
-name=rabbitmq-erlang
-baseurl=https://dl.bintray.com/rabbitmq/rpm/erlang/21/el/7
-gpgcheck=1
-gpgkey=https://dl.bintray.com/rabbitmq/Keys/rabbitmq-release-signing-key.asc
-repo_gpgcheck=0
-enabled=1
-
-# 3.添加成功后，清除原有缓存并创建新缓存
-yum clean all
-yum makecache
-```
-
-##### (2) 安装RabbitMQ
-
-```shell
-# 1.下载文件
-wget https://dl.bintray.com/rabbitmq/all/rabbitmq-server/3.7.7/rabbitmq-server-3.7.7-1.el7.noarch.rpm
-
-# 2.开始安装
-yum install rabbitmq-server-3.7.7-1.el7.noarch.rpm
-
-# 3.若提示缺少socat依赖，则安装socat依赖
-yum install socat
-
-#启动
-service rabbitmq-server start
-
-#查看状态
+# 查看状态
 rabbitmqctl status
 
-#开启web插件
+# 启用网页版后台管理插件
 rabbitmq-plugins enable rabbitmq_management
 
-#重启
-service rabbitmq-server restart
+# 重启rabbitmq
+systemctl restart rabbitmq-server 或 service rabbitmq-server restart
 
 #添加一个用户名为admin，密码为admin的用户
 rabbitmqctl add_user admin admin
@@ -242,18 +200,216 @@ rabbitmqctl add_user admin admin
 rabbitmqctl set_user_tags admin administrator
 
 #配置admin用户可以远程登录
-rabbitmgctl set_permissions -p / admin ".*"".*"".*"
+rabbitmqctl set_permissions -p / admin ".*" ".*" ".*"
 ```
 
+rabbitmq其他常用操作：
 
+```shell
+# 可以设置rabbitmq开机自启
+systemctl enable rabbitmq-server
+
+# 关闭服务
+rabbitmqctl stop
+```
+
+插件管理：
+
+```shell
+#插件列表： 
+rabbitmq-plugins list 
+
+#启动插件： 
+rabbitmq-plugins enable XXX   （XXX为插件名）
+
+#停用插件： 
+rabbitmq-plugins disable XXX
+```
+
+RabbitMQ启动成功后，默认有一个guest用户，但是该用户只能在本地登录，无法远程登录，因此本案例中添加了一个新的用户sang，也具有管理员身份，同时可以远程登录。当RabbitMQ启动成功后，在物理机浏览器上输入虚拟机地址: http://localhost:15672，15672是RabbitMQ的默认端口，如下：
+
+![image-20210210150406378](upload/image-20210210150406378.png)
+
+登录admin如下：
+
+![image-20210210150345203](upload/image-20210210150345203.png)
 
 #### 2.1.3 整合SpringBoot 
 
-##### (1) Direct
+Spring Boot为AMQP提供了自动化配置依赖spring-boot-starter-amqp ，因此首先创建Spring Boot项目并添加该依赖，如下：
 
-##### (2) Fanout
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-amqp</artifactId>
+</dependency>
+```
 
-##### (3) Topic
+配置RabbitMQ连接信息如下：
 
-##### (4) Header
+```yml
+spring:
+  rabbitmq:
+    # rabbitmq地址、端口、用户名、密码
+    host: localhost
+    # 注意：该端口不是15672
+    port: 5672
+    username: admin
+    password: admin
+```
+
+由于所有的消息生产者提交的消息都会交由Exchange进行再分配，Exchange会根据不同的策略将消息分发到不同的Queue 中。RabbitMQ中一共提供了4种不同的Exchange策略，分别是 Direct、Fanout、Topic以及Header，这4种不同的策略中前3种的使用频率较高，第4种的使用频率较低，下面分别对这4种不同的ExchangeType予以介绍。
+
+##### (1) Direct直接交换
+
+Direct的策略是将消息队列绑定到DirectExchange上，即将消息转发到与该条消息key相同的Queye中，例如该队列的名称为"queue-name"，监听的key为"queue-name"的消息会被该消息队列接收。RabbitMQDirectConfig如下：
+
+```java
+@Configuration
+public class RabbitMQDirectConfig {
+
+    public final static String DIRECTNAME = "weiyh-direct";
+
+    @Bean
+    Queue queue() {
+        // 队列名称，用于接收者监听
+        return new Queue("queue-name");
+    }
+
+    @Bean
+    DirectExchange directExchange() {
+        // 消息名称，重启后是否有效，长期未用是否删除
+        return new DirectExchange(DIRECTNAME, true, false);
+    }
+
+    @Bean
+    Binding binding() {
+        // 将队列以direct的方式进行绑定
+        return BindingBuilder.bind(queue()).to(directExchange()).with("direct");
+    }
+}
+```
+
+消息消费者DirectReceiver如下：
+
+```java
+@Component
+public class DirectReceiver {
+    // 监听的队列名称
+    @RabbitListener(queues = "queue-name")
+    public void handler(String msg) {
+        System.out.println("DirectReceiver：" + msg);
+    }
+}
+```
+
+在测试类中注入RabbitTemplat 对象来进行消息发送，如下：
+
+```java
+@SpringBootTest
+class RabbitmqApplicationTests {
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
+    @Test
+    void contextLoads() {
+        System.out.println("nihao");
+        rabbitTemplate.convertAndSend("queue-name", "===========>hello direct");
+    }
+}
+```
+
+记得启动RabbitMQ，然后在启动测试类，成功输出如下：
+
+![image-20210210210236237](upload/image-20210210210236237.png)
+
+RabbitMQ控制台可以看到：
+
+![image-20210210210312737](upload/image-20210210210312737.png)
+
+##### (2) Fanout扇形交换
+
+Fanout的策略是是吧所有到达FanoutExchange的消息转发给所有与它绑定的Queue，这个过程中key不起任何作用。创建两个Queue，将两个Queue绑定到FanoutExchange中，如下：
+
+```java
+@Configuration
+public class RabbitMQFanoutConfig {
+
+    public final static String FANOUTNAME = "weiyh-fanout";
+
+    @Bean
+    FanoutExchange fanoutExchange() {
+        return new FanoutExchange(FANOUTNAME, true, false);
+    }
+
+    @Bean
+    Queue queueOne() {
+        return new Queue("queue-one");
+    }
+
+    @Bean
+    Queue queueTwo() {
+        return new Queue("queue-two");
+    }
+
+    @Bean
+    Binding bindingOne() {
+        // 将队列queueOne绑定到fanoutExchange中
+        return BindingBuilder.bind(queueOne()).to(fanoutExchange());
+    }
+
+    @Bean
+    Binding bindingTwo() {
+        // 将队列queueTwo绑定到fanoutExchange中
+        return BindingBuilder.bind(queueTwo()).to(fanoutExchange());
+    }
+}
+```
+
+创建两个消费者如下：
+
+```java
+@Component
+public class FanoutReceiver {
+
+    @RabbitListener(queues = "queue-one")
+    public void handlerOne(String msg) {
+        System.out.println("FanoutReceiver.handlerOne：" + msg);
+    }
+
+    @RabbitListener(queues = "queue-two")
+    public void handlerTwo(String msg) {
+        System.out.println("FanoutReceiver.handlerTwo：" + msg);
+    }
+}
+```
+
+测试：
+
+```java
+@SpringBootTest
+class RabbitmqApplicationTests {
+    @Autowired
+    RabbitTemplate rabbitTemplate;
+
+    @Test
+    void contextLoads() {
+        // exchange策略名称，key为null，发送内容
+        rabbitTemplate.convertAndSend(RabbitMQFanoutConfig.FANOUTNAME, null,
+        	"========>hello fanout");
+    }
+}
+```
+
+注意：这里发送消息时不需要key，指定exchange即可，key为null。
+
+一条消息发出后，所有与fanout绑定的Queue都接收到了消息，输出如下：
+
+![image-20210210215952635](upload/image-20210210215952635.png)
+
+##### (3) Topic主题交换
+
+
+
+##### (4) Header首部交换
 
