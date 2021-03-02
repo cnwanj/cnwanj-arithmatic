@@ -262,7 +262,7 @@ spring:
 
 ##### (1) Direct直接交换
 
-Direct的策略是将消息队列绑定到DirectExchange上，即将消息转发到与该条消息key相同的Queye中，例如该队列的名称为"queue-name"，监听的key为"queue-name"的消息会被该消息队列接收。RabbitMQDirectConfig如下：
+Direct的策略是将消息队列绑定到DirectExchange上，即将消息转发到与该条消息key相同的Queue中，例如该队列的名称为"queue-name"，监听的key为"queue-name"的消息会被该消息队列接收。RabbitMQDirectConfig如下：
 
 ```java
 @Configuration
@@ -329,7 +329,7 @@ RabbitMQ控制台可以看到：
 
 ##### (2) Fanout扇形交换
 
-Fanout的策略是是吧所有到达FanoutExchange的消息转发给所有与它绑定的Queue，这个过程中key不起任何作用。创建两个Queue，将两个Queue绑定到FanoutExchange中，如下：
+Fanout的策略是把所有到达FanoutExchange的消息转发给所有与它绑定的Queue，这个过程中key不起任何作用。创建两个Queue，将两个Queue绑定到FanoutExchange中，如下：
 
 ```java
 @Configuration
@@ -409,7 +409,4 @@ class RabbitmqApplicationTests {
 
 ##### (3) Topic主题交换
 
-
-
 ##### (4) Header首部交换
-

@@ -1,7 +1,9 @@
 package org.gxuwz.arithmatic.lanqiao;
 
-public abstract class Main {
+public class Main {
+    public static void main(String[] args) {
 
+    }
 }
 
 

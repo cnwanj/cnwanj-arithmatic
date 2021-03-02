@@ -70,7 +70,7 @@ console.log('真实dom', document.getElementById('test'));
 debugger
 ```
 
-切换到浏览器刷新页面查看如下：
+切换到浏览器刷新页面查看真实DOM如下：
 
 ![image-20210126230652494](upload/image-20210126230652494.png)
 
