@@ -1266,3 +1266,61 @@ springcloud-learning
 
 
 ![image-20210302223951012](upload/image-20210302223951012.png)
+
+
+
+# 四、OpenFeign服务消费者
+
+
+
+![image-20210304230029069](upload/image-20210304230029069.png)
+
+
+
+![image-20210304230108762](upload/image-20210304230108762.png)
+
+
+
+```
+2021-03-04 22:58:32.809 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] ---> GET http://user-service/user/1 HTTP/1.1
+2021-03-04 22:58:32.809 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] ---> END HTTP (0-byte body)
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] <--- HTTP/1.1 200 (2ms)
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] connection: keep-alive
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] content-type: application/json
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] date: Thu, 04 Mar 2021 14:58:32 GMT
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] keep-alive: timeout=60
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] transfer-encoding: chunked
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] 
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] {"data":{"id":1,"username":"jourwon","password":"123456"},"message":"操作成功","code":200}
+2021-03-04 22:58:32.812 DEBUG 18424 --- [-user-service-5] c.j.springcloud.service.UserService      : [UserService#getUser] <--- END HTTP (94-byte body)
+```
+
+**feign常用配置**
+
+```yml
+feign:
+  hystrix:
+    enabled: true #在Feign中开启Hystrix
+  compression:
+    request:
+      enabled: false #是否对请求进行GZIP压缩
+      mime-types: text/xml,application/xml,application/json #指定压缩的请求数据类型
+      min-request-size: 2048 #超过该大小的请求会被压缩
+    response:
+      enabled: false #是否对响应进行GZIP压缩
+logging:
+  level: #修改日志级别
+    com.jourwon.springcloud.service: debug
+```
+
+**使用到的模块**
+
+```
+springcloud-learning
+├── eureka-server -- eureka注册中心
+├── user-service -- 提供User对象CRUD接口的服务
+└── feign-service -- feign服务调用测试服务 
+```
+
+参考链接：[https://blog.csdn.net/ThinkWon/article/details/103735751](https://blog.csdn.net/ThinkWon/article/details/103735751)
+
