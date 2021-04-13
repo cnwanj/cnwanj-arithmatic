@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/MyProject_02_arithmetic.iml" filepath="$PROJECT_DIR$/MyProject_02_arithmetic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/cnwanj-arithmatic.iml" filepath="$PROJECT_DIR$/.idea/cnwanj-arithmatic.iml" />
     </modules>
   </component>
 </project>
