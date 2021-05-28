@@ -2,7 +2,7 @@ package org.gxuwz.arithmatic.excel;
 
 import org.apache.poi.hssf.usermodel.*;
 
-import java.io.*;
+import java.io.IOException;
 
 public class Excel {
     public void excel() throws IOException {
