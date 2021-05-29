@@ -35,12 +35,13 @@ import java.util.Scanner;
  *
  * 进阶：如果你已经实现复杂度为 O(n) 的解法，尝试使用更为精妙的 分治法 求解。
  */
-public class Main1_35_最大子序和 {
+public class Main35_最大子序和 {
 
     /**
      * -2 1 -3 4 -1 2 1 -5 4
      * -2 -1 -3 -6 -4 -5
      * 1 -3 2 3 1
+     * 5 4 -1 7 8
      */
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -50,14 +51,24 @@ public class Main1_35_最大子序和 {
             arr[i] = Integer.parseInt(s[i]);
         }
 
-        int max = arr[0], sum = 0;
-        for (int i = 1; i < arr.length; i++) {
-            if (sum <= 0) {
-                // 若元素小于0，进行直接比较，获取最大的负数
-                sum = arr[i];
+//        int max = arr[0], sum = 0;
+//        for (int num : arr) {
+//            if (sum > 0) {
+//                // 若元素大于0，进行累加，获取最大和
+//                sum += num;
+//            } else {
+//                // 若元素小于0，进行直接比较，获取最大的负数
+//                sum = num;
+//            }
+//            max = Math.max(max, sum);
+//        }
+//        System.out.println(max);
+        int sum = 0, max = arr[0];
+        for (int num : arr) {
+            if (sum > 0) {
+                sum += num;
             } else {
-                // 若元素大于0，进行累加，获取最大和
-                sum += arr[i];
+                sum = num;
             }
             max = Math.max(max, sum);
         }
