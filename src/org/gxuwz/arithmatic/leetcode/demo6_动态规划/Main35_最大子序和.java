@@ -66,8 +66,10 @@ public class Main35_最大子序和 {
         int sum = 0, max = arr[0];
         for (int num : arr) {
             if (sum > 0) {
+                // 若元素大于0，进行累加，获取最大和
                 sum += num;
             } else {
+                // 若元素小于等于0，进行直接比较，获取最大的负数
                 sum = num;
             }
             max = Math.max(max, sum);

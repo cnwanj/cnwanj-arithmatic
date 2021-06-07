@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.nowcoder;
+package org.gxuwz.arithmatic.nowcoder.main_练习;
 
 import java.util.Scanner;
 

@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.nowcoder;
+package org.gxuwz.arithmatic.nowcoder.main_练习;
 
 /**
  * 一年一度的春招就要到来了，牛牛为了备战春招，在家刷了很多道题，所以牛牛非常喜欢AC这两个字母。

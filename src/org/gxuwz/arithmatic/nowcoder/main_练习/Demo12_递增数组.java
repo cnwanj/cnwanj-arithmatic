@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.nowcoder;
+package org.gxuwz.arithmatic.nowcoder.main_练习;
 
 public class Demo12_递增数组 {
 
