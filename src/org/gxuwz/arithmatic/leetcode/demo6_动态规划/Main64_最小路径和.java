@@ -7,10 +7,7 @@ package org.gxuwz.arithmatic.leetcode.demo6_动态规划;
  *
  * 示例 1：
  *
- * 输入：grid = [
- * [1,3,1],
- * [1,5,1],
- * [4,2,1]]
+ * 输入：grid = [[1,3,1], [1,5,1], [4,2,1]]
  *
  * 输出：7
  *
@@ -57,7 +54,7 @@ public class Main64_最小路径和 {
         // 当前坐标元素最小路径等于左方或上方的路径和
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < m; j++) {
-                grid[i][j] = Math.min(grid[i][j] + grid[i][j - 1], grid[i][j] + grid[i - 1][j]);
+                grid[i][j] = Math.min(grid[i][j - 1], grid[i - 1][j]) + grid[i][j];
             }
         }
         return grid[n - 1][m - 1];
