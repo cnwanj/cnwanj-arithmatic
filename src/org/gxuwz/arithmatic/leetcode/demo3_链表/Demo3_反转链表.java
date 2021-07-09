@@ -17,6 +17,18 @@ public class Demo3_反转链表 {
 
     }
 
+    public ListNode f(ListNode head) {
+        ListNode pre = null;
+        ListNode curr = head;
+        while (curr.next != null) {
+            ListNode temp = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = temp;
+        }
+        return pre;
+    }
+
     public ListNode reverseList(ListNode head) {
         ListNode pre = null;
         ListNode curr = head;

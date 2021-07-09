@@ -3,7 +3,7 @@ package org.gxuwz.arithmatic.leetcode.demo6_动态规划;
 import java.util.Scanner;
 
 /**
- * 62. 不同路径
+ * 62.不同路径
  *
  * 一个机器人位于一个 m x n 网格的左上角 （起始点在下图中标记为 “Start” ）。
  *
@@ -33,10 +33,10 @@ import java.util.Scanner;
  * 输入：m = 3, n = 3
  * 输出：6
  *
- * 解析：
- * 到达右下角arr[i][j]的路径总和，等于上坐标arr[i - 1][j]和左坐标arr[i][j - 1]的路径总和。
- * 简单说，当前格子等于上方格子加左方格子。
- * 得出结论：arr[i][j] = arr[i - 1][j] + arr[i][j -];
+ * 分析
+ * 1.到达右下角arr[i][j]的路径总和，等于上坐标arr[i - 1][j]和左坐标arr[i][j - 1]的路径总和。
+ * 2.简单说，当前格子等于上边格子加左边格子。
+ * 3.得出结论：arr[i][j] = arr[i - 1][j] + arr[i][j -];
  */
 public class Main62_不同路径 {
 

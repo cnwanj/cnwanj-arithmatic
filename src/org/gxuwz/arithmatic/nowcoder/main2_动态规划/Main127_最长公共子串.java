@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.nowcoder.main_动态规划;
+package org.gxuwz.arithmatic.nowcoder.main2_动态规划;
 
 import java.util.Scanner;
 

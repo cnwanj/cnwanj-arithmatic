@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.nowcoder.main_练习;
+package org.gxuwz.arithmatic.nowcoder.main1_练习;
 
 import java.util.*;
 

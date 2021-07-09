@@ -1,20 +1,25 @@
 package org.gxuwz.arithmatic.lanqiao;
 
-import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws Exception {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt(), sum = 1;
-        int i = n % 2 == 0 ? 2 : 1;
-        while (i <= n) {
-            sum *= i;
-            sum %= 100000;
-            System.out.println(i + " " + sum);
-            i += 2;
-        }
+
+    public static void main(String[] args) {
+//        List<User> list = new ArrayList<>();
+//        User user1 = new User("1", "1", "1");
+//        User user2 = new User("2", "2", "2");
+//        User user3 = new User("3", "3", "3");
+//        list.add(user1);
+//        list.add(user2);
+//        list.add(user3);
+//        List<String> collect = list.stream().map(User::getName).collect(Collectors.toList());
+//        System.out.println(Arrays.toString(collect.toArray()));
+//        System.out.println(" 123456".substring(0,3));
+//        System.out.println(" aa a ".trim());
+
+
     }
 }
+
 
 
 

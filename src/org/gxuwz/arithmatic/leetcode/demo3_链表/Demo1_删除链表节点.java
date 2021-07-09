@@ -12,6 +12,18 @@ public class Demo1_删除链表节点 {
         node.val = node.next.val;
         node.next = node.next.next;
     }
+
+    public ListNode revers(ListNode head) {
+        ListNode pre = null;
+        ListNode curr = head;
+        while (curr != null) {
+            ListNode temp = curr.next;
+            curr.next = pre;
+            pre = curr;
+            curr = temp;
+        }
+        return pre;
+    }
 }
 
 class ListNode {
