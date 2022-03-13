@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.designPattern.demo1_接口隔离原则;
+package org.gxuwz.arithmatic.designPattern.main1_接口隔离原则;
 
 public class Segregation {
     public static void main(String[] args) {
