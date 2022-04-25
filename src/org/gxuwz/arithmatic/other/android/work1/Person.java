@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.android.work1;
+package org.gxuwz.arithmatic.other.android.work1;
 
 public class Person {
 

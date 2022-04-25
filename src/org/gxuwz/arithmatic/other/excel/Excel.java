@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.excel;
+package org.gxuwz.arithmatic.other.excel;
 
 import org.apache.poi.hssf.usermodel.*;
 

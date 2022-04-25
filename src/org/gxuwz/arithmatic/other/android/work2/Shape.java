@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.android.work2;
+package org.gxuwz.arithmatic.other.android.work2;
 
 // 定义一个多边形抽象类
 public abstract class Shape {

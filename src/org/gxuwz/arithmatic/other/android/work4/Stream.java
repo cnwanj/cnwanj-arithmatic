@@ -1,4 +1,4 @@
-package org.gxuwz.arithmatic.android.work4;
+package org.gxuwz.arithmatic.other.android.work4;
 
 import javax.swing.*;
 import java.awt.*;
